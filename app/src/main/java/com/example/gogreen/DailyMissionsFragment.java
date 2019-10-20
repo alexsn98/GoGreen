@@ -1,7 +1,6 @@
 package com.example.gogreen;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -14,10 +13,10 @@ import android.view.ViewGroup;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeButtonsFragment extends Fragment {
+public class DailyMissionsFragment extends Fragment {
 
 
-    public HomeButtonsFragment() {
+    public DailyMissionsFragment() {
         // Required empty public constructor
     }
 
@@ -26,6 +25,7 @@ public class HomeButtonsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home_buttons, container, false);
+        return inflater.inflate(R.layout.fragment_daily_missions, container, false);
     }
+
 }

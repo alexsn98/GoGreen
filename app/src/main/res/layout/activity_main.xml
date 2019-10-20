@@ -1,19 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:map="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <fragment
-        android:id="@+id/map"
+        android:id="@+id/Header"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="710dp" />
+        android:layout_height="710dp" >
+
+
+        <Button
+            android:id="@+id/buttonCurrent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|top"
+            android:layout_marginTop="20dp"
+            android:onClick="onClick"
+            android:padding="10dp"
+            android:paddingRight="10dp"
+            android:text="Demo Button" />
+
+    </fragment>
 
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="115dp" />
+
 </LinearLayout>

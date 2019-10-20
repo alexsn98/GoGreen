@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
+    android:background="@color/colorBackground"
     tools:context=".HomeButtonsFragment"
     >
 
@@ -24,7 +24,8 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="@drawable/round_button"/>
+        android:background="@drawable/round_button"
+        android:onClick="changeToMissions"/>
 
     <ImageButton
         android:id="@+id/button8"

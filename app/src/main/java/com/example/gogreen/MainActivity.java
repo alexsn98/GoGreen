@@ -1,10 +1,15 @@
 package com.example.gogreen;
 
 
+import android.Manifest;
+import android.annotation.TargetApi;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.fragment.app.FragmentActivity;
@@ -28,7 +33,7 @@ public class MainActivity extends FragmentActivity implements
         GoogleApiClient.OnConnectionFailedListener,
         GoogleMap.OnMarkerDragListener,
         GoogleMap.OnMapLongClickListener,
-        View.OnClickListener{
+        View.OnClickListener {
 
     //Our Map
     private GoogleMap mMap;
@@ -37,10 +42,8 @@ public class MainActivity extends FragmentActivity implements
     private double longitude;
     private double latitude;
 
-    //Buttons
-    private ImageButton buttonSave;
-    private ImageButton buttonCurrent;
-    private ImageButton buttonView;
+    private Button buttonCurrent;
+
 
     //Google ApiClient
     private GoogleApiClient googleApiClient;
@@ -52,7 +55,7 @@ public class MainActivity extends FragmentActivity implements
         setContentView(R.layout.activity_main);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+                .findFragmentById(R.id.Header);
         mapFragment.getMapAsync(this);
 
         //Initializing googleapi client
@@ -70,10 +73,11 @@ public class MainActivity extends FragmentActivity implements
         fragmentTransaction.add(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
 
+        buttonCurrent =  findViewById(R.id.buttonCurrent);
 /*
         //Initializing views and adding onclick listeners
         buttonSave = (ImageButton) findViewById(R.id.buttonSave);
-        buttonCurrent = (ImageButton) findViewById(R.id.buttonCurrent);
+
         buttonView = (ImageButton) findViewById(R.id.buttonView);
         buttonSave.setOnClickListener(this);
         buttonCurrent.setOnClickListener(this);
@@ -93,9 +97,22 @@ public class MainActivity extends FragmentActivity implements
     }
 
     //Getting current location
+
+    @TargetApi(Build.VERSION_CODES.M)
     private void getCurrentLocation() {
         mMap.clear();
         //Creating a location object
+
+        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    Activity#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for Activity#requestPermissions for more details.
+            return;
+        }
         Location location = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
         if (location != null) {
             //Getting longitude and latitude
@@ -141,6 +158,8 @@ public class MainActivity extends FragmentActivity implements
         mMap.setOnMapLongClickListener(this);
     }
 
+
+    @TargetApi(Build.VERSION_CODES.M)
     @Override
     public void onConnected(Bundle bundle) {
         getCurrentLocation();
@@ -187,11 +206,17 @@ public class MainActivity extends FragmentActivity implements
         moveMap();
     }
 
+    @TargetApi(Build.VERSION_CODES.M)
     @Override
     public void onClick(View v) {
         if(v == buttonCurrent){
             getCurrentLocation();
             moveMap();
         }
+    }
+
+    public void changeToMissions(View view){
+        Intent intent = new Intent(this, MissionsActivity.class);
+        startActivity(intent);
     }
 }

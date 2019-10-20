@@ -1,7 +1,11 @@
 <resources>
     <string name="app_name">GoGreen!</string>
-    <string name="title_activity_maps">Map</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_maps">GoGreen!</string>
+    <string name="MyMissions">As minhas missões</string>
+    <string name="DailyHeader">Missão diária</string>
+    <string name="DailyText">Hoje, se vires lixo no chão , apanha-o e mete no lixo</string>
+    <string name="WeeklyHeader"> Missão Semanal</string>
+    <string name="WeeklyText">Não desperdices comida e deixes estragar, deixar no frigorífico é batota</string>
+    <string name="NMissionsHeader"> Missões concluídas</string>
+    <string name="NMissions"> 4 </string>
 </resources>
