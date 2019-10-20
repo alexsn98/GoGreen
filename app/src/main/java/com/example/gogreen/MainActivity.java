@@ -6,6 +6,7 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -142,7 +143,7 @@ public class MainActivity extends FragmentActivity implements
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
 
         //Animating the camera
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(17));
 
         //Displaying current coordinates in toast
         Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
@@ -217,6 +218,11 @@ public class MainActivity extends FragmentActivity implements
 
     public void changeToMissions(View view){
         Intent intent = new Intent(this, MissionsActivity.class);
+        startActivity(intent);
+    }
+
+    public void changeToQRCode(View view){
+        Intent intent = new Intent(this, QRCodeActivity.class);
         startActivity(intent);
     }
 }
