@@ -17,7 +17,7 @@
         <TextView
             android:id="@+id/textView12"
             android:layout_width="match_parent"
-            android:layout_height="61dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:paddingLeft="15dp"
             android:paddingTop="10dp"
@@ -36,17 +36,19 @@
                 android:layout_height="match_parent">
 
                 <ImageButton
-                    android:id="@+id/imageButton"
+                    android:id="@+id/fact1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:onClick="onButtonShowPopupWindowClick"
                     app:srcCompat="@drawable/avatar_tree" />
 
                 <ImageButton
-                    android:id="@+id/imageButton2"
+                    android:id="@+id/fact2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:onClick="onButtonShowPopupWindowClick"
                     app:srcCompat="@drawable/avatar_tree" />
 
                 <ImageButton
@@ -84,7 +86,7 @@
         <TextView
             android:id="@+id/textView13"
             android:layout_width="match_parent"
-            android:layout_height="61dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:paddingLeft="15dp"
             android:paddingTop="10dp"
@@ -153,7 +155,7 @@
         <TextView
             android:id="@+id/textView14"
             android:layout_width="match_parent"
-            android:layout_height="61dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:paddingLeft="15dp"
             android:paddingTop="10dp"

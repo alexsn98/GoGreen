@@ -16,7 +16,7 @@
         android:roundIcon="@mipmap/ic_logo_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <activity android:name=".FactCardActivity"></activity>
         <activity
             android:name=".EnciclopediaActivity"
             android:label="@string/EnciclopediaActivity"
@@ -25,7 +25,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".AvatarActivity" />
         </activity>
-
         <activity
             android:name=".AvatarActivity"
             android:label="@string/AvatarActivty"
@@ -34,7 +33,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-
         <activity
             android:name=".QRCodeActivity"
             android:label="@string/QRActivty"
@@ -70,7 +68,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

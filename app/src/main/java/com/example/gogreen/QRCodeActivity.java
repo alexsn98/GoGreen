@@ -25,6 +25,7 @@ public class QRCodeActivity extends AppCompatActivity {
 
     CameraSource cs;
     TextView tv;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,4 +95,6 @@ public class QRCodeActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }

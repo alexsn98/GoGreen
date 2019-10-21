@@ -12,7 +12,7 @@
     <FrameLayout
         android:id="@+id/avatar_frame"
         android:layout_width="match_parent"
-        android:layout_height="368dp" />
+        android:layout_height="338dp" />
 
     <FrameLayout
         android:id="@+id/avatar_buttons_frame"
