@@ -17,10 +17,11 @@ public class AvatarActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        AvatarFragment fragment = new AvatarFragment();
-        fragmentTransaction.add(R.id.avatar_frame, fragment);
+        AvatarFragment avatarFragment = new AvatarFragment();
+        fragmentTransaction.add(R.id.avatar_frame, avatarFragment);
 
-
+        AvatarButtonsFragment buttonsFragment = new AvatarButtonsFragment();
+        fragmentTransaction.add(R.id.avatar_buttons_frame, buttonsFragment);
 
         fragmentTransaction.commit();
 

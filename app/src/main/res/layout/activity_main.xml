@@ -9,8 +9,7 @@
         android:id="@+id/Header"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="710dp" >
-
+        android:layout_height="match_parent">
 
         <Button
             android:id="@+id/buttonCurrent"
@@ -23,11 +22,12 @@
             android:paddingRight="10dp"
             android:text="My Location" />
 
+        <FrameLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"/>
     </fragment>
 
-    <FrameLayout
-        android:id="@+id/fragment_container"
-        android:layout_width="match_parent"
-        android:layout_height="115dp" />
 
 </LinearLayout>
