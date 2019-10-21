@@ -17,7 +17,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".AvatarActivity"
+        <activity
+            android:name=".EnciclopediaActivity"
+            android:label="@string/EnciclopediaActivity"
+            android:parentActivityName=".AvatarActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".AvatarActivity" />
+        </activity>
+
+        <activity
+            android:name=".AvatarActivity"
             android:label="@string/AvatarActivty"
             android:parentActivityName=".MainActivity">
             <meta-data
@@ -25,13 +35,19 @@
                 android:value=".MainActivity" />
         </activity>
 
-        <activity android:name=".QRCodeActivity"
+        <activity
+            android:name=".QRCodeActivity"
             android:label="@string/QRActivty"
             android:parentActivityName=".MainActivity">
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".MainActivity" />
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
         </activity>
+
+        <meta-data
+            android:name="com.google.android.gms.vision.DEPENDECIES"
+            android:value="barcode" />
+
         <activity
             android:name=".MissionsActivity"
             android:label="@string/MyMissions"
@@ -40,14 +56,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <!--
-             The API key for Google Maps-based APIs is defined as a string resource.
-             (See the file "res/values/google_maps_api.xml").
-             Note that the API key is linked to the encryption key used to sign the APK.
-             You need a different API key for each encryption key, including the release key that is used to
-             sign the APK for publishing.
-             You can define the keys for the debug and release targets in src/debug/ and src/release/.
-        -->
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
@@ -62,9 +71,6 @@
             </intent-filter>
         </activity>
 
-        <meta-data
-            android:name="com.google.android.gms.vision.DEPENDECIES"
-            android:value="barcode" />
     </application>
 
 </manifest>

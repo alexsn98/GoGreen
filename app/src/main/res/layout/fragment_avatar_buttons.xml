@@ -4,10 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AvatarButtonsFragment">
+    tools:context=".AvatarActivity">
 
     <ImageButton
         android:id="@+id/button"
+        android:onClick="changeToEnciclopedia"
         android:layout_width="88dp"
         android:layout_height="87dp"
         android:layout_marginTop="92dp"

@@ -36,7 +36,7 @@
         android:layout_width="264dp"
         android:layout_height="298dp"
         android:layout_marginTop="16dp"
-        android:src="@drawable/wood_frame"
+        android:src="@drawable/wood_border"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
