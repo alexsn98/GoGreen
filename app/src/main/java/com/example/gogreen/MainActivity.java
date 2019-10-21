@@ -145,8 +145,6 @@ public class MainActivity extends FragmentActivity implements
         //Animating the camera
         mMap.animateCamera(CameraUpdateFactory.zoomTo(17));
 
-        //Displaying current coordinates in toast
-        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
     }
 
     @Override

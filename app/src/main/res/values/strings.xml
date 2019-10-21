@@ -9,12 +9,16 @@
     <string name="NMissionsHeader"> Missões concluídas</string>
     <string name="MissionsActivty"> As minhas missões</string>
     <string name="QRActivty"> Scan código QR</string>
-    <string name="AvatarActivty"> O meu avatar</string>
+    <string name="AvatarActivty"> O meu perfil</string>
     <string name="NMissions"> 4 </string>
     <string name="username"> Joca </string>
-    <string name="coins"> 50 moedas </string>
+    <string name="friends"> Amigos </string>
+    <string name="coins"> 50</string>
     <string name="progress"> 2300/5000 </string>
+    <string name="enci_button"> Enciclopédia </string>
+    <string name="cruzeta_button"> Personagens </string>
+    <string name="peer_review_button"> ValidGreen </string>
+    <string name="setting_button"> Definições </string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>
