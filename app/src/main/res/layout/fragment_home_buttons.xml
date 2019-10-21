@@ -44,7 +44,8 @@
         app:layout_constraintHorizontal_bias="0.047"
         app:layout_constraintStart_toEndOf="@+id/button7"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.499" />
+        app:layout_constraintVertical_bias="0.499"
+        android:onClick="changeAvatar"/>
 
     <ImageButton
         android:src="@drawable/qr_code_button"

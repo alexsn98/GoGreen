@@ -225,4 +225,9 @@ public class MainActivity extends FragmentActivity implements
         Intent intent = new Intent(this, QRCodeActivity.class);
         startActivity(intent);
     }
+
+    public void changeAvatar(View view){
+        Intent intent = new Intent(this, AvatarActivity.class);
+        startActivity(intent);
+    }
 }
