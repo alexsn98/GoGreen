@@ -16,6 +16,7 @@
         android:roundIcon="@mipmap/ic_logo_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ValidGreenActivity"></activity>
         <activity
             android:name=".CostumizeAvatarActivity"
             android:label="@string/CostumizeAvatarActivity"

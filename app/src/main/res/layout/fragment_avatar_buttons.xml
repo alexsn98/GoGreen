@@ -41,6 +41,7 @@
         android:layout_height="87dp"
         android:layout_marginTop="56dp"
         android:background="@color/transparentBackground"
+        android:onClick="changeToValidGreen"
         android:scaleType="fitCenter"
         android:src="@drawable/decision"
         android:text="Button"

@@ -42,6 +42,8 @@ public class AvatarActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-
-
+    public void changeToValidGreen(View view) {
+        Intent intent = new Intent(this, ValidGreenActivity.class);
+        startActivity(intent);
+    }
 }
