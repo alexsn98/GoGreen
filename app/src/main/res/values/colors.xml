@@ -6,4 +6,5 @@
     <color name="colorBackground">#79d279</color>
     <color name="colorBackgroundFaded">#b3e6b3</color>
     <color name="transparentBackground">#00000000</color>
+    <color name="yellow">#FFD633</color>
 </resources>
