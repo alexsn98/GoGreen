@@ -46,4 +46,11 @@ public class AvatarActivity extends AppCompatActivity {
         Intent intent = new Intent(this, ValidGreenActivity.class);
         startActivity(intent);
     }
+
+    public void changeToSettings(View view) {
+        Intent intent = new Intent(this, SettingsActivity.class);
+
+        startActivity(intent);
+    }
+
 }

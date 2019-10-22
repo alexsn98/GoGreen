@@ -16,7 +16,15 @@
         android:roundIcon="@mipmap/ic_logo_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".SettingsActivity"
+            android:label="@string/SettingsActivity"
+            android:parentActivityName=".AvatarActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".AvatarActivity" />
+        </activity>
         <activity android:name=".ValidGreenActivity"></activity>
+
         <activity
             android:name=".CostumizeAvatarActivity"
             android:label="@string/CostumizeAvatarActivity"

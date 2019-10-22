@@ -24,4 +24,5 @@
     <string name="EnciclopediaReduzir"> Reduzir </string>
     <string name="EnciclopediaReutilizar"> Reutilizar </string>
     <string name="CostumizeAvatarActivity"> Personagens </string>
+    <string name="SettingsActivity"> Definições </string>
 </resources>

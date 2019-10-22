@@ -56,6 +56,7 @@
         android:layout_height="87dp"
         android:layout_marginTop="57dp"
         android:background="@color/transparentBackground"
+        android:onClick="changeToSettings"
         android:scaleType="fitCenter"
         android:src="@drawable/settings_icon"
         android:text="Button"
