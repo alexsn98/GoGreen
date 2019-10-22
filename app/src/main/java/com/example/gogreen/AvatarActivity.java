@@ -39,7 +39,7 @@ public class AvatarActivity extends AppCompatActivity {
     public void changeToCostumize(View view) {
         Intent intent = new Intent(this, CostumizeAvatarActivity.class);
 
-        startActivityForResult(intent, -1);
+        startActivity(intent);
     }
 
 
