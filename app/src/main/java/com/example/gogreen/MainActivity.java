@@ -97,7 +97,8 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setOnMyLocationClickListener(this);
         mMap.setOnMapLongClickListener(this);
         mMap.setOnMarkerDragListener(this);
-        mMap.setTrafficEnabled(true);
+
+
 
         getCurrentLocation();
 

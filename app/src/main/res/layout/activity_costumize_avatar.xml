@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorBackground"
+    tools:context=".CostumizeAvatarActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="230dp">
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="257dp"
+            android:layout_height="171dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.231"
+            app:srcCompat="@drawable/wood_border" />
+
+        <ImageView
+            android:id="@+id/avatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.385"
+            app:srcCompat="@drawable/avatar_tree" />
+
+        <ImageView
+            android:id="@+id/imageView7"
+            android:layout_width="41dp"
+            android:layout_height="39dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/gold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.272"
+            app:layout_constraintStart_toEndOf="@+id/textView3"
+            app:layout_constraintTop_toBottomOf="@+id/imageView3"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/textView16"
+            android:layout_width="36dp"
+            android:layout_height="39dp"
+            android:layout_marginEnd="64dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/coins"
+            android:textColor="#FFFFFF"
+            android:textSize="30sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView3"
+            app:layout_constraintVertical_bias="0.0" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:layout_width="300dp"
+        android:layout_height="2dp"
+        android:layout_gravity="center"
+        android:background="@color/colorPrimary" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/frame1"
+                android:layout_width="114dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:onClick="changeAvatar"
+                android:clickable="false"
+                android:src="@mipmap/ic_logo_round" />
+
+            <ImageView
+                android:id="@+id/imageView8"
+                android:layout_width="114dp"
+                android:layout_height="100dp"
+                android:onClick="changeAvatar"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:src="@drawable/avatar_tree" />
+
+            <ImageView
+                android:id="@+id/imageView9"
+                android:layout_width="114dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:onClick="changeAvatar"
+                android:src="@mipmap/ic_logo_round" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imageView10"
+                android:layout_width="114dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:onClick="changeAvatar"
+                android:src="@mipmap/ic_logo_round" />
+
+            <ImageView
+                android:id="@+id/imageView11"
+                android:layout_width="114dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:onClick="changeAvatar"
+                android:layout_weight="1"
+                android:src="@mipmap/ic_logo_round" />
+
+            <ImageView
+                android:id="@+id/imageView12"
+                android:layout_width="114dp"
+                android:onClick="changeAvatar"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:src="@mipmap/ic_logo_round" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imageView13"
+                android:layout_width="114dp"
+                android:layout_height="100dp"
+                android:onClick="changeAvatar"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:src="@mipmap/ic_logo_round" />
+
+            <ImageView
+                android:id="@+id/imageView14"
+                android:layout_width="114dp"
+                android:layout_height="100dp"
+                android:onClick="changeAvatar"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:src="@mipmap/ic_logo_round" />
+
+            <ImageView
+                android:id="@+id/imageView15"
+                android:layout_width="114dp"
+                android:layout_height="100dp"
+                android:onClick="changeAvatar"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:src="@mipmap/ic_logo_round" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

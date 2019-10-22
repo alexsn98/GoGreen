@@ -23,7 +23,5 @@
     <string name="EnciclopediaReciclar"> Reciclar </string>
     <string name="EnciclopediaReduzir"> Reduzir </string>
     <string name="EnciclopediaReutilizar"> Reutilizar </string>
-    <string name="Fact"> </string>
-
-
+    <string name="CostumizeAvatarActivity"> Personagens </string>
 </resources>
