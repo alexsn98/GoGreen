@@ -15,17 +15,19 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 
 public class AvatarActivity extends AppCompatActivity {
-    LinearLayout screen;
+    LinearLayout screenAvatar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_avatar);
-        Log.d("pau","reset");
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
@@ -35,19 +37,46 @@ public class AvatarActivity extends AppCompatActivity {
         AvatarButtonsFragment buttonsFragment = new AvatarButtonsFragment();
         fragmentTransaction.add(R.id.avatar_buttons_frame, buttonsFragment);
 
+        FriendsFragment friendsFragment = new FriendsFragment();
+        fragmentTransaction.add(R.id.avatar_all_frame, friendsFragment);
+
         fragmentTransaction.commit();
 
-        screen = findViewById(R.id.avatarScreen);
+        screenAvatar = findViewById(R.id.avatarScreen);
 
-        screen.setOnTouchListener(new OnSwipeTouchListener(AvatarActivity.this){
+        screenAvatar.setOnTouchListener(new OnSwipeTouchListener(AvatarActivity.this){
             @Override
             public void onSwipeRight() {
                 Toast.makeText(AvatarActivity.this,"right",Toast.LENGTH_SHORT).show();
+
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction()
+                        .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
+
+                findViewById(R.id.avatar_all_frame).setVisibility(View.GONE);
+
+                findViewById(R.id.avatar_frame).setVisibility(View.VISIBLE);
+
+                findViewById(R.id.avatar_buttons_frame).setVisibility(View.VISIBLE);
+
+                fragmentTransaction.commit();
             }
 
             @Override
             public void onSwipeLeft() {
                 Toast.makeText(AvatarActivity.this,"left",Toast.LENGTH_SHORT).show();
+
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction()
+                        .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
+
+                findViewById(R.id.avatar_frame).setVisibility(View.GONE);
+
+                findViewById(R.id.avatar_buttons_frame).setVisibility(View.GONE);
+
+                findViewById(R.id.avatar_all_frame).setVisibility(View.VISIBLE);
+
+                fragmentTransaction.commit();
             }
         });
     }

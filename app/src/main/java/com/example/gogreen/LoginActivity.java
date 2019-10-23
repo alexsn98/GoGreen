@@ -52,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
                         // onLoginFailed();
                         progressDialog.dismiss();
                     }
-                }, 3000);
+                }, 2000);
     }
 
     public void onLoginSuccess() {
@@ -69,7 +69,7 @@ public class LoginActivity extends AppCompatActivity {
         String password = passwordField.getText().toString();
 
         if (username.isEmpty()) {
-            usernameField.setError("enter a valid email address");
+            usernameField.setError("enter a valid name");
             valid = false;
         } else {
             usernameField.setError(null);
