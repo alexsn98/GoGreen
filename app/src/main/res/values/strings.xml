@@ -25,4 +25,5 @@
     <string name="EnciclopediaReutilizar"> Reutilizar </string>
     <string name="CostumizeAvatarActivity"> Personagens </string>
     <string name="SettingsActivity"> Definições </string>
+    <string name="ValidGreenActivity">ValidGreen</string>
 </resources>

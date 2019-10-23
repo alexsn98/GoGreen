@@ -2,40 +2,45 @@ package com.example.gogreen;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import org.w3c.dom.Text;
 
 public class LoginActivity extends AppCompatActivity {
-    EditText usernameField = findViewById(R.id.nome);
-    EditText passwordField = findViewById(R.id.password);
-
+    EditText usernameField;
+    EditText passwordField ;
+    Button loginButton ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        usernameField  = findViewById(R.id.nome);
+        passwordField = findViewById(R.id.password);
+        loginButton = findViewById(R.id.loginButton);
         getSupportActionBar().hide(); //esconder app bar
     }
 
-    public void login() {
+    public void login(View v) {
         if (!validate()) {
-            onLoginFailed();
+
             return;
         }
 
-        _loginButton.setEnabled(false);
+        loginButton.setEnabled(false);
 
         final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this,
-                R.style.AppTheme_Dark_Dialog);
+                R.style.Theme_MaterialComponents_Light_Dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Authenticating...");
         progressDialog.show();
 
-        String email = _emailText.getText().toString();
-        String password = _passwordText.getText().toString();
+        String email = usernameField.getText().toString();
+        String password = passwordField.getText().toString();
 
         // TODO: Implement your own authentication logic here.
 
@@ -51,7 +56,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onLoginSuccess() {
-        _loginButton.setEnabled(true);
+        loginButton.setEnabled(true);
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
         finish();
     }
 
@@ -68,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
             usernameField.setError(null);
         }
 
-        if (password.isEmpty() || password.length() < 1 || password.length() > 10) {
+        if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
             passwordField.setError("between 4 and 10 alphanumeric characters");
             valid = false;
         } else {

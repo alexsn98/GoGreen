@@ -74,17 +74,19 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPassword"
-        app:layout_constraintBottom_toTopOf="@+id/button5"
+        app:layout_constraintBottom_toTopOf="@+id/loginButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nome" />
 
     <Button
-        android:id="@+id/button5"
+        android:id="@+id/loginButton"
         android:layout_width="178dp"
         android:layout_height="75dp"
         android:background="@drawable/login_button"
+        android:onClick="login"
+
         android:text="Entrar"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"

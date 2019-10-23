@@ -157,12 +157,13 @@
         app:layout_constraintTop_toBottomOf="@+id/textView18" />
 
     <TextView
-        android:id="@+id/textView22"
+        android:id="@+id/terminarSessão"
         android:layout_width="wrap_content"
         android:layout_height="28dp"
         android:layout_marginStart="56dp"
         android:layout_marginTop="16dp"
         android:gravity="center_vertical"
+        android:onClick="endSession"
         android:paddingLeft="2dp"
         android:paddingRight="2dp"
         android:text="Terminar Sessão"
@@ -220,7 +221,7 @@
         android:layout_width="30dp"
         android:layout_height="28dp"
         android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toStartOf="@+id/textView22"
+        app:layout_constraintEnd_toStartOf="@+id/terminarSessão"
         app:layout_constraintTop_toBottomOf="@+id/textView21"
         app:srcCompat="@drawable/exit" />
 

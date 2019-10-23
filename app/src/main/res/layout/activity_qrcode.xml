@@ -8,13 +8,14 @@
 
     <SurfaceView
         android:id="@+id/qrcode"
-        android:layout_width="match_parent"
-        android:layout_height="500dp"
-        android:layout_marginBottom="8dp"
+        android:layout_width="407dp"
+        android:layout_height="423dp"
         app:layout_constraintBottom_toTopOf="@+id/textqr"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        tools:layout_editor_absoluteX="0dp" />
+        app:layout_constraintVertical_bias="0.0" />
+
 
     <TextView
         android:id="@+id/textqr"
