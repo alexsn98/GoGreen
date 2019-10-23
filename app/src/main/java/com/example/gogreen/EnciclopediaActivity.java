@@ -46,10 +46,10 @@ public class EnciclopediaActivity extends AppCompatActivity {
 
         switch (view.getId()) {
             case R.id.fact1:
-                t.setText("PIXA");
+                t.setText("Plástico no ecoponto amarelo");
                 break;
             case R.id.fact2:
-                t.setText("CONA");
+                t.setText("Papel no ecoponto azul");
                 break;
         }
 
