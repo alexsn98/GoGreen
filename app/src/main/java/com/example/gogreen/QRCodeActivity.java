@@ -39,7 +39,7 @@ public class QRCodeActivity extends AppCompatActivity {
                 .setBarcodeFormats(Barcode.QR_CODE).build();
 
         cs = new CameraSource.Builder(this, bd)
-                .setRequestedPreviewSize(640, 480).build();
+                .setRequestedPreviewSize(640, 480).setAutoFocusEnabled(true).build();
 
 
         sv.getHolder().addCallback(new SurfaceHolder.Callback() {
