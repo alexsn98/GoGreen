@@ -2,7 +2,7 @@
 Projeto CM 19/20
 
 TODO:
-1 - Swipe no friend list \n
+1 - Swipe no friend list /n
 2 - Enciclopédia (formatar) \n
 3 - Molduras + Avatares \n
 4 - Leitura de códigos QR + processamento \n
