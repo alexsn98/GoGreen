@@ -25,15 +25,15 @@
 
         <ImageView
             android:id="@+id/avatar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.385"
-            app:srcCompat="@drawable/avatar_tree" />
+            android:background="@drawable/avatar_tree" />
 
         <ImageView
             android:id="@+id/imageView7"
@@ -100,7 +100,7 @@
                 android:onClick="changeAvatar"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:src="@drawable/avatar_tree" />
+                android:src="@mipmap/ic_logo_round" />
 
             <ImageView
                 android:id="@+id/imageView9"
@@ -159,7 +159,7 @@
                 android:onClick="changeAvatar"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:src="@mipmap/ic_logo_round" />
+                android:src="@drawable/avatar_tree"/>
 
             <ImageView
                 android:id="@+id/imageView13"
@@ -177,7 +177,7 @@
                 android:onClick="changeAvatar"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:src="@mipmap/ic_logo_round" />
+                android:src="@drawable/recyclesign1" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

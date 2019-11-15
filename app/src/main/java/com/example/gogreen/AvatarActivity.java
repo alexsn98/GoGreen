@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.Image;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
@@ -16,12 +18,14 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 
 public class AvatarActivity extends AppCompatActivity {
     LinearLayout screenAvatar;
+    AvatarFragment avatarFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +35,7 @@ public class AvatarActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        AvatarFragment avatarFragment = new AvatarFragment();
+        avatarFragment = new AvatarFragment();
         fragmentTransaction.add(R.id.avatar_frame, avatarFragment);
 
         AvatarButtonsFragment buttonsFragment = new AvatarButtonsFragment();
@@ -89,7 +93,7 @@ public class AvatarActivity extends AppCompatActivity {
     public void changeToCostumize(View view) {
         Intent intent = new Intent(this, CostumizeAvatarActivity.class);
 
-        startActivity(intent);
+        startActivityForResult(intent, 1);
     }
 
     public void changeToValidGreen(View view) {
@@ -103,7 +107,24 @@ public class AvatarActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d("pau" , String.valueOf(requestCode));
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+                Log.d("pau" , "entrou?");
+                Bundle extras = data.getExtras();
+                byte[] result = extras.getByteArray("result");
+                Bitmap bm = BitmapFactory.decodeByteArray(result,0,result.length);
+                Log.d("pau",String.valueOf(result));
+                avatarFragment.changeAvatar(bm);
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
 
+            }
+        }
+    }
 
     public class OnSwipeTouchListener implements OnTouchListener {
 
