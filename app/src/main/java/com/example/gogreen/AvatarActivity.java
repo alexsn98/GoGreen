@@ -1,6 +1,7 @@
 package com.example.gogreen;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import android.content.Context;
@@ -22,6 +23,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.vision.text.Line;
 
 
 public class AvatarActivity extends AppCompatActivity {
@@ -48,7 +51,6 @@ public class AvatarActivity extends AppCompatActivity {
         fragmentTransaction.commit();
 
         //alterar nome
-        Log.d("pau", LoginActivity.getUsername());
         TextView t = findViewById(R.id.usernameView);
         t.setText(LoginActivity.getUsername());
 
@@ -57,8 +59,6 @@ public class AvatarActivity extends AppCompatActivity {
         screenAvatar.setOnTouchListener(new OnSwipeTouchListener(AvatarActivity.this){
             @Override
             public void onSwipeRight() {
-                Toast.makeText(AvatarActivity.this,"right",Toast.LENGTH_SHORT).show();
-
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction()
                         .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
@@ -69,13 +69,15 @@ public class AvatarActivity extends AppCompatActivity {
 
                 findViewById(R.id.avatar_buttons_frame).setVisibility(View.VISIBLE);
 
+                findViewById(R.id.underlineView).setVisibility(View.VISIBLE);
+
+                findViewById(R.id.underlineView2).setVisibility(View.GONE);
+
                 fragmentTransaction.commit();
             }
 
             @Override
             public void onSwipeLeft() {
-                Toast.makeText(AvatarActivity.this,"left",Toast.LENGTH_SHORT).show();
-
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction()
                         .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
@@ -85,6 +87,10 @@ public class AvatarActivity extends AppCompatActivity {
                 findViewById(R.id.avatar_buttons_frame).setVisibility(View.GONE);
 
                 findViewById(R.id.avatar_all_frame).setVisibility(View.VISIBLE);
+
+                findViewById(R.id.underlineView).setVisibility(View.GONE);
+
+                findViewById(R.id.underlineView2).setVisibility(View.VISIBLE);
 
                 fragmentTransaction.commit();
             }
@@ -116,14 +122,11 @@ public class AvatarActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d("pau" , String.valueOf(requestCode));
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
-                Log.d("pau" , "entrou?");
                 Bundle extras = data.getExtras();
                 byte[] result = extras.getByteArray("result");
                 Bitmap bm = BitmapFactory.decodeByteArray(result,0,result.length);
-                Log.d("pau",String.valueOf(result));
                 avatarFragment.changeAvatar(bm);
             }
             if (resultCode == Activity.RESULT_CANCELED) {

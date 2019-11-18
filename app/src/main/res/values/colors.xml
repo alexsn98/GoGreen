@@ -7,4 +7,10 @@
     <color name="colorBackgroundFaded">#b3e6b3</color>
     <color name="transparentBackground">#00000000</color>
     <color name="yellow">#FFD633</color>
+    <color name="transparent">#00000000</color>
+    <!-- card_brown colors -->
+    <color name="card_background">#ffffff</color>
+    <color name="card_shadow_1">#d4d4d4</color>
+    <color name="card_shadow_2">#dddddd</color>
+    <color name="card_detailing">#eee</color>
 </resources>

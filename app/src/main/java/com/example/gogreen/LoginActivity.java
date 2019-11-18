@@ -23,9 +23,11 @@ import org.w3c.dom.Text;
 public class LoginActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 1;
     EditText usernameField;
+    private static boolean doLogin = true;
     EditText passwordField;
     Button loginButton;
-    GoogleSignInClient mGoogleSignInClient;
+    static GoogleSignInClient mGoogleSignInClient;
+    static GoogleSignInAccount gs;
     private static String username;
 
     @Override
@@ -50,7 +52,14 @@ public class LoginActivity extends AppCompatActivity {
                 signIn(v);
             }
         });
-        GoogleSignInAccount gs = GoogleSignIn.getLastSignedInAccount(this);
+
+        if(doLogin) setUpAccount();
+    }
+
+
+    public void setUpAccount(){
+        gs = GoogleSignIn.getLastSignedInAccount(this);
+
         if (gs != null) {
             setUsername(gs.getDisplayName());
 
@@ -58,7 +67,6 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(intent);
         }
     }
-
     public static String getUsername() {
         return username;
     }
@@ -70,6 +78,13 @@ public class LoginActivity extends AppCompatActivity {
     private void signIn(View v) {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    public static void logout() {
+        if(gs!= null){
+            mGoogleSignInClient.signOut();
+            doLogin = false;
+        }
     }
 
     @Override

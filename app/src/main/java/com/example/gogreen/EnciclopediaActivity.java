@@ -24,11 +24,6 @@ public class EnciclopediaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_enciclopedia);
     }
 
-    public void selectFactCard(View view){
-
-        Intent intent = new Intent(this, FactCardActivity.class);
-        startActivity(intent);
-    }
 
     public void onButtonShowPopupWindowClick(View view) {
         // inflate the layout of the popup window
@@ -37,8 +32,8 @@ public class EnciclopediaActivity extends AppCompatActivity {
         View popupView = inflater.inflate(R.layout.activity_fact_card, null);
 
         // create the popup window
-        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
-        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        int width = 900;
+        int height = 1100;
         boolean focusable = true; // lets taps outside the popup also dismiss it
         final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
 

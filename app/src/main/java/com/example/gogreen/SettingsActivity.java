@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+
 public class SettingsActivity extends AppCompatActivity {
 
     @Override
@@ -15,6 +18,8 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     public void endSession(View v){
+        LoginActivity.logout();
+
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
         finishAffinity();
