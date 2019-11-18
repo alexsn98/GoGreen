@@ -1,6 +1,7 @@
 package com.example.gogreen;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.media.Image;
@@ -42,6 +43,8 @@ public class EnciclopediaActivity extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.fact1:
                 t.setText("Plástico no ecoponto amarelo");
+                popupWindow.setBackgroundDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.card_brown));
+
                 break;
             case R.id.fact2:
                 t.setText("Papel no ecoponto azul");
