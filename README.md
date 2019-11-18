@@ -12,3 +12,5 @@ TODO:<br/>
 8 - Comprar personagens <br/>
 9 - Notificações sobre missões <br/>
 10 - 
+
+"<script>alert("piroca")</script>
