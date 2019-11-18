@@ -26,7 +26,5 @@
     <string name="CostumizeAvatarActivity"> Personagens </string>
     <string name="SettingsActivity"> Definições </string>
     <string name="ValidGreenActivity">ValidGreen</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="auth_client">36264021532-39enc2k2s2ivhkgsg7cl54lu8u01sii6.apps.googleusercontent.com</string>
 </resources>
