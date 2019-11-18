@@ -20,6 +20,7 @@ import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -45,6 +46,11 @@ public class AvatarActivity extends AppCompatActivity {
         fragmentTransaction.add(R.id.avatar_all_frame, friendsFragment);
 
         fragmentTransaction.commit();
+
+        //alterar nome
+        Log.d("pau", LoginActivity.getUsername());
+        TextView t = findViewById(R.id.usernameView);
+        t.setText(LoginActivity.getUsername());
 
         screenAvatar = findViewById(R.id.avatarScreen);
 

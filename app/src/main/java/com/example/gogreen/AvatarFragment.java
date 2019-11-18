@@ -32,6 +32,7 @@ public class AvatarFragment extends Fragment {
                              Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_avatar, container, false);
 
+        //alterar imagem
         imageView = v.findViewById(R.id.topAvatar);
 
         imageView.setImageResource(R.drawable.avatar_tree);

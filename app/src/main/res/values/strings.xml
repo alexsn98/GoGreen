@@ -11,7 +11,7 @@
     <string name="QRActivty"> Scan código QR</string>
     <string name="AvatarActivty"> O meu perfil</string>
     <string name="NMissions"> 4 </string>
-    <string name="username"> Joca </string>
+    <string name="username"></string>
     <string name="friends"> Amigos </string>
     <string name="coins"> 50</string>
     <string name="progress"> 2300/5000 </string>
@@ -26,5 +26,4 @@
     <string name="CostumizeAvatarActivity"> Personagens </string>
     <string name="SettingsActivity"> Definições </string>
     <string name="ValidGreenActivity">ValidGreen</string>
-    <string name="auth_client">36264021532-39enc2k2s2ivhkgsg7cl54lu8u01sii6.apps.googleusercontent.com</string>
 </resources>

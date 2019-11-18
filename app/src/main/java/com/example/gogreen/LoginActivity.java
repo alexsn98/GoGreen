@@ -3,6 +3,7 @@ package com.example.gogreen;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,6 +26,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText passwordField;
     Button loginButton;
     GoogleSignInClient mGoogleSignInClient;
+    private static String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,11 +50,21 @@ public class LoginActivity extends AppCompatActivity {
                 signIn(v);
             }
         });
+        GoogleSignInAccount gs = GoogleSignIn.getLastSignedInAccount(this);
+        if (gs != null) {
+            setUsername(gs.getDisplayName());
 
-        if (GoogleSignIn.getLastSignedInAccount(this) != null) {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         }
+    }
+
+    public static String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username.split(" ")[0];
     }
 
     private void signIn(View v) {
@@ -70,18 +82,24 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+            setUsername(account.getDisplayName().split(" ")[0]);
 
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
-
-        } catch (ApiException e) {
+        }
+        catch (ApiException e) {
             Log.w("pau", "signInResult:failed code=" + e.getMessage());
             //updateUI(null);
         }
     }
+
+
+
+
 
     public void login(View v) {
         if (!validate()) {
