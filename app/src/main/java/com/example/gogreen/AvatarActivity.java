@@ -2,6 +2,7 @@ package com.example.gogreen;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import android.content.Context;
@@ -10,6 +11,7 @@ import android.graphics.BitmapFactory;
 import android.media.Image;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -21,6 +23,7 @@ import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,7 +33,8 @@ import com.google.android.gms.vision.text.Line;
 public class AvatarActivity extends AppCompatActivity {
     LinearLayout screenAvatar;
     AvatarFragment avatarFragment;
-
+    static String s_popup;
+    static boolean popup;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,12 +54,18 @@ public class AvatarActivity extends AppCompatActivity {
 
         fragmentTransaction.commit();
 
+
+
         //alterar nome
         TextView t = findViewById(R.id.usernameView);
         t.setText(LoginActivity.getUsername());
 
         screenAvatar = findViewById(R.id.avatarScreen);
 
+        if(popup){
+            popUpOfXp();
+            popup = false;
+        }
         screenAvatar.setOnTouchListener(new OnSwipeTouchListener(AvatarActivity.this){
             @Override
             public void onSwipeRight() {
@@ -202,6 +212,24 @@ public class AvatarActivity extends AppCompatActivity {
         }
     }
 
+    public void popUpOfXp(){
+        LayoutInflater inflater = (LayoutInflater)
+                getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popupView = inflater.inflate(R.layout.activity_fact_card, null);
 
+        // create the popup window
+        int width = 900;
+        int height = 1100;
+        boolean focusable = true; // lets taps outside the popup also dismiss it
+        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
 
+        TextView t = popupView.findViewById(R.id.popup_text);
+        t.setText(s_popup);
+        popupWindow.setBackgroundDrawable(ContextCompat.getDrawable(screenAvatar.getContext(), R.drawable.card_brown));
+    }
+
+    public static void setPopup(String s, boolean b){
+        s_popup = s;
+        popup = b;
+    }
 }

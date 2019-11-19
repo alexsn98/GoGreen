@@ -24,6 +24,8 @@ public class CostumizeAvatarActivity extends AppCompatActivity  {
     Drawable chosen;
     ImageView avatar;
     ColorMatrix matrix;
+    static Bitmap bm;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,15 +35,28 @@ public class CostumizeAvatarActivity extends AppCompatActivity  {
         matrix = new ColorMatrix();
         matrix.setSaturation(0);
         imageview.setColorFilter(new ColorMatrixColorFilter(matrix));
+
+        ImageView imageView = findViewById(R.id.avatar);
+
+        if (bm != null) {
+            imageView.setImageBitmap(bm);
+        }
+
+        else {
+            Bitmap defaultAvatar = ((BitmapDrawable) getResources().getDrawable(R.drawable.avatar_tree)).getBitmap();
+
+            imageView.setImageBitmap(defaultAvatar);
+        }
     }
 
 
     public void changeAvatar(View view){
-
         ColorMatrix matrix1 = new ColorMatrix();
         matrix1.setSaturation(0);
         avatar = findViewById(R.id.avatar);
-        image =  findViewById(view.getId());
+        avatar.setImageBitmap(null);
+
+        image = findViewById(view.getId());
 
         chosen = image.getDrawable();
 
@@ -49,14 +64,17 @@ public class CostumizeAvatarActivity extends AppCompatActivity  {
             avatar.setBackground(chosen);
         }
 
-
         Intent returnIntent = new Intent();
 
         Bitmap bitmap = ((BitmapDrawable) chosen).getBitmap();
+
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
         byte [] b = baos.toByteArray();
         returnIntent.putExtra("result", b);
+
+        bm = bitmap;
+
         setResult(Activity.RESULT_OK, returnIntent);
     }
 

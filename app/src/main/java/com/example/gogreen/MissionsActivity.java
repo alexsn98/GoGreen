@@ -8,12 +8,15 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 
 public class MissionsActivity extends AppCompatActivity {
-    static final int REQUEST_IMAGE_CAPTURE = 1;
+    private static int missionD = 0;
+    private static int missionS = 0;
+    private static int missionsDone = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,29 +40,52 @@ public class MissionsActivity extends AppCompatActivity {
         FrameLayout frame = findViewById(R.id.daily_missions_container);
         frame.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                dispatchTakePictureIntent();
+                dispatchTakePictureIntent(1);
             }
         });
 
         FrameLayout frame1 = findViewById(R.id.weekly_missions_container);
         frame1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                dispatchTakePictureIntent();
+                dispatchTakePictureIntent(2);
             }
         });
-
-
     }
 
-    private void dispatchTakePictureIntent() {
+    public static int getMissionD() {
+        return missionD;
+    }
+
+    public static int getMissionS() {
+        return missionS;
+    }
+
+    public static int getMissionsDone() {
+        return missionsDone;
+    }
+
+    private void dispatchTakePictureIntent(int missionType) {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+            startActivityForResult(takePictureIntent, missionType);
         }
     }
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            missionD++;
+            missionsDone++;
+
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            //imageView.setImageBitmap(imageBitmap);
+        }
+
+        if (requestCode == 2 && resultCode == RESULT_OK) {
+            missionS++;
+            missionsDone++;
+
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             //imageView.setImageBitmap(imageBitmap);

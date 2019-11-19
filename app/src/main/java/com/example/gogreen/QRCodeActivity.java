@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,12 +21,18 @@ import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class QRCodeActivity extends AppCompatActivity {
 
     CameraSource cs;
     TextView tv;
 
+    // Start without a delay
+    // Vibrate for 100 milliseconds
+    // Sleep for 1000 milliseconds
+    long[] pattern = {0, 200, 1500};
+    ArrayList<Integer> qrCodesRead = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,9 +77,10 @@ public class QRCodeActivity extends AppCompatActivity {
         });
 
         bd.setProcessor(new Detector.Processor<Barcode>() {
+            String s;
             @Override
             public void release() {
-
+                changeScreen(s);
             }
 
             @Override
@@ -80,15 +88,37 @@ public class QRCodeActivity extends AppCompatActivity {
                 final SparseArray<Barcode> qrCodes = detections.getDetectedItems();
 
                 if(qrCodes.size() != 0){
+
                     tv.post(new Runnable() {
                         @Override
                         public void run() {
-                            Vibrator vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
+                            String[] input = qrCodes.valueAt(0).displayValue.split(";");
+                            if(!qrCodesRead.contains(Integer.valueOf(input[3]))){
+                                qrCodesRead.add(Integer.valueOf(input[3]));
+                                Vibrator vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
 
-                            vibrator.vibrate(300);
-                            tv.setText(qrCodes.valueAt(0).displayValue);
+                                vibrator.vibrate(pattern, 0);
+
+                                //xp;coins;carta;id
+                                s = "Ganhas-te " + input[0] + " pontos de experiência " + " e " + input[1] + " moedas " ;
+                                if(input.length > 2 ) s.concat(" e a carta " + input[2]);
+                                tv.setText(s);
+                                AvatarButtonsFragment.increaseXP(Integer.valueOf(input[0]));
+
+                                vibrator.cancel();
+
+                                release();
+
+
+                            }else{
+                                String s = "Já leste este QR Code!!!";
+                                tv.setText(s);
+                            }
+
+
                         }
                     });
+
 
 
                 }
@@ -96,5 +126,9 @@ public class QRCodeActivity extends AppCompatActivity {
         });
     }
 
-
+    public void changeScreen(String s){
+        Intent intent = new Intent(this, AvatarActivity.class);
+        AvatarActivity.setPopup(s, true);
+        startActivity(intent);
+    }
 }

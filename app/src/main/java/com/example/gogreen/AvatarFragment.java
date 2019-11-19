@@ -21,6 +21,7 @@ import android.widget.TextView;
 public class AvatarFragment extends Fragment {
     ImageView imageView;
     View v;
+    static Bitmap bm;
 
     public AvatarFragment() {
         // Required empty public constructor
@@ -35,17 +36,22 @@ public class AvatarFragment extends Fragment {
         //alterar imagem
         imageView = v.findViewById(R.id.topAvatar);
 
-        imageView.setImageResource(R.drawable.avatar_tree);
+        if (bm == null) {
+            imageView.setImageResource(R.drawable.avatar_tree);
 
-        changeAvatar(BitmapFactory.decodeResource(getResources(),R.drawable.avatar_tree));
+            changeAvatar(BitmapFactory.decodeResource(getResources(),R.drawable.avatar_tree));
+        }
+        else {
+            imageView.setImageBitmap(bm);
+        }
 
         return v;
     }
 
     public void changeAvatar(Bitmap s) {
+        bm = s;
         imageView = v.findViewById(R.id.topAvatar);
 
         imageView.setImageBitmap(s);
     }
-
 }

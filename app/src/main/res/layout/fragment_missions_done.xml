@@ -32,14 +32,13 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/missionsDoneText"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginStart="60dp"
             android:layout_marginLeft="60dp"
             android:layout_marginTop="50dp"
             android:gravity="center"
-            android:text="@string/NMissions"
             android:textColor="#FFFF"
             android:textSize="36sp"
             app:layout_constraintStart_toStartOf="parent"
@@ -53,7 +52,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginTop="45dp"
             android:src="@drawable/star_missions"
-            app:layout_constraintStart_toEndOf="@+id/textView"
+            app:layout_constraintStart_toEndOf="@+id/missionsDoneText"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
