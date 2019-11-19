@@ -40,7 +40,7 @@ public class QRCodeActivity extends AppCompatActivity {
 
         SurfaceView sv = findViewById(R.id.qrcode);
 
-        tv = findViewById(R.id.textqr);
+        //tv = findViewById(R.id.textqr);
 
         BarcodeDetector bd = new BarcodeDetector.Builder(this)
                 .setBarcodeFormats(Barcode.QR_CODE).build();
@@ -111,7 +111,7 @@ public class QRCodeActivity extends AppCompatActivity {
 
 
                             }else{
-                                String s = "Já leste este QR Code!!!";
+                                s = "Já leste este QR Code!!!";
                                 tv.setText(s);
                             }
 
@@ -128,7 +128,7 @@ public class QRCodeActivity extends AppCompatActivity {
 
     public void changeScreen(String s){
         Intent intent = new Intent(this, AvatarActivity.class);
-        AvatarActivity.setPopup(s, true);
+        intent.putExtra("result",s);
         startActivity(intent);
     }
 }

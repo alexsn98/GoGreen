@@ -10,23 +10,9 @@
         android:id="@+id/qrcode"
         android:layout_width="0dp"
         android:layout_height="500dp"
-        app:layout_constraintBottom_toTopOf="@+id/textqr"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 
-    <TextView
-        android:id="@+id/textqr"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_marginBottom="76dp"
-        android:background="@drawable/rounded_border"
-        android:gravity="center"
-        android:textColor="#FFFF"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="0dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
