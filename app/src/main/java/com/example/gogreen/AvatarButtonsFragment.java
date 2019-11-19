@@ -19,15 +19,23 @@ import android.widget.TextView;
 public class AvatarButtonsFragment extends Fragment {
 
     private static View v;
-    private static int gainedXP = 0;
-    private int level;
+
+    private static int gainedXP ;
+    private static int level;
+    private static ProgressBar progressBar;
+    private static int[] xp ;
+    private LevelChangeListener listener;
+
+    public interface LevelChangeListener{
+        public void onLevelChange(int level);
+    }
 
     public AvatarButtonsFragment() {
         // Required empty public constructor
     }
 
-    public static void increaseXP(int gained_xp) {
-        gainedXP = gainedXP + gained_xp;
+    public static void increaseXP(int received_xp) {
+        AvatarActivity.setGainedXP(AvatarActivity.getGainedXP() + received_xp);
     }
 
 
@@ -35,57 +43,74 @@ public class AvatarButtonsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         v = inflater.inflate(R.layout.fragment_avatar_buttons, container, false);
 
+        gainedXP = AvatarActivity.getGainedXP();
+        level = AvatarActivity.getLevel();
+        //progressBar = AvatarActivity.getProgressBar();
+
+        progressBar = v.findViewById(R.id.progressBar);
+
+
+        xp = AvatarActivity.getXp();
+
+        progressBar.setProgress(xp[0]);
+        progressBar.setMax(xp[1]);
         updateProgressBar();
 
         return v;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        updateProgressBar();
-    }
 
     private void updateProgressBar() {
-        ProgressBar progressBar = v.findViewById(R.id.progressBar);
-
-        TextView lvlAtual = v.findViewById(R.id.nivelAtual);
-        TextView lvlProx = v.findViewById(R.id.proxNivel);
-        TextView xPText = v.findViewById(R.id.xp_number);
-
-        int prox = Integer.valueOf(lvlProx.getText().toString());
-        String[] xp = xPText.getText().toString().split("/");
+        TextView lvlAtualView = v.findViewById(R.id.nivelAtual);
+        TextView lvlProxView = v.findViewById(R.id.proxNivel);
+        TextView xPTextView = v.findViewById(R.id.xp_number);
 
 
-        if(gainedXP + progressBar.getProgress() > progressBar.getMax()){
-            int nextLevelXP = progressBar.getProgress() - gainedXP;
+        if(gainedXP + xp[0] >= progressBar.getMax()){
+            Log.d("pau1", String.valueOf(gainedXP+progressBar.getProgress()));
+            int nextLevelXP = Math.abs(progressBar.getMax() - (xp[0] + gainedXP));
+
             progressBar.setMax(progressBar.getMax() + 1000);
             progressBar.setProgress(0);
             progressBar.incrementProgressBy(nextLevelXP);
 
-            lvlAtual.setText(String.valueOf(prox));
-            lvlProx.setText(String.valueOf(prox+1));
+            lvlAtualView.setText(String.valueOf(++level));
+            lvlProxView.setText(String.valueOf(level+1));
 
-            xp[0] = String.valueOf(progressBar.getProgress());
-            xp[1] = String.valueOf(progressBar.getMax());
+            xp[0] = nextLevelXP;
+            xp[1] = progressBar.getMax();
 
-            xPText.setText(xp[0]+"/"+xp[1]);
+            xPTextView.setText(xp[0]+"/"+xp[1]);
 
-            level = prox;
 
-        }else{
-            progressBar.incrementProgressBy(gainedXP);
-            xp[0] = String.valueOf(progressBar.getProgress());
-            xPText.setText(xp[0]+"/"+xp[1]);
+            if (listener != null) {
+                listener.onLevelChange(level);
+            }
         }
 
-        gainedXP = 0;
+        else{
+            Log.d("pixa", String.valueOf(gainedXP));
+            progressBar.setProgress(xp[0] + gainedXP);
+
+            xp[0] = progressBar.getProgress();
+            xp[1] = progressBar.getMax();
+            lvlAtualView.setText(String.valueOf(level));
+            lvlProxView.setText(String.valueOf(level+1));
+            xPTextView.setText(xp[0]+"/"+xp[1]);
+
+        }
+        AvatarActivity.setGainedXP(0);
+        AvatarActivity.setXp(xp);
+        AvatarActivity.setLevel(level);
+
     }
 
-    public int getLevel(){
-        return this.level;
+
+
+    public void setLevelChangeListener(LevelChangeListener listener) {
+        this.listener = listener;
     }
 }

@@ -1,45 +1,43 @@
 package com.example.gogreen;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.android.gms.vision.text.Line;
+import com.example.gogreen.AvatarButtonsFragment.LevelChangeListener;
 
 
 public class AvatarActivity extends AppCompatActivity {
     LinearLayout screenAvatar;
     AvatarFragment avatarFragment;
-    static String s_popup;
+    static String username;
+
+    private static int gainedXP = 0;
+    private static int level = 1;
+
+
+    private static int[] xp = {0,0};
+    private LevelChangeListener listener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_avatar);
+
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -50,24 +48,37 @@ public class AvatarActivity extends AppCompatActivity {
         AvatarButtonsFragment buttonsFragment = new AvatarButtonsFragment();
         fragmentTransaction.add(R.id.avatar_buttons_frame, buttonsFragment);
 
+        buttonsFragment.setLevelChangeListener(new LevelChangeListener() {
+            @Override
+            public void onLevelChange(int level) {
+                avatarFragment.setLevel(level);
+            }
+        });
 
         FriendsFragment friendsFragment = new FriendsFragment();
         fragmentTransaction.add(R.id.avatar_all_frame, friendsFragment);
 
         fragmentTransaction.commit();
 
+        if(xp[1] == 0)
+            xp[1] = 1000;
+
+
+
+        username = LoginActivity.getUsername();
         //alterar nome
         TextView t = findViewById(R.id.usernameView);
-        t.setText(LoginActivity.getUsername());
+
+        t.setText(username);
 
         screenAvatar = findViewById(R.id.avatarScreen);
         Intent i = getIntent();
 
-        if(i.getStringExtra("result") != null) {
-            String s = (i.getStringExtra("result"));
+        if(i.getStringExtra("string_qr") != null) {
+            String s = (i.getStringExtra("string_qr"));
             int duration = Toast.LENGTH_LONG;
             Toast.makeText(getApplicationContext(), s, duration).show();
-
+            i.removeExtra("string_qr");
         }
 
         screenAvatar.setOnTouchListener(new OnSwipeTouchListener(AvatarActivity.this){
@@ -216,12 +227,29 @@ public class AvatarActivity extends AppCompatActivity {
         }
     }
 
-    public void popUpOfXp(){
-
+    public static int getGainedXP() {
+        return gainedXP;
     }
 
-    public static void setPopup(String s){
-        s_popup = s;
+    public static void setGainedXP(int gainedXP) {
+        AvatarActivity.gainedXP = gainedXP;
+    }
 
+    public static int getLevel() {
+        return level;
+    }
+
+    public static void setLevel(int level) {
+        AvatarActivity.level = level;
+    }
+
+
+
+    public static int[] getXp() {
+        return xp;
+    }
+
+    public static void setXp(int[] xp) {
+        AvatarActivity.xp = xp;
     }
 }

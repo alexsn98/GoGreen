@@ -20,8 +20,11 @@ import android.widget.TextView;
  */
 public class AvatarFragment extends Fragment {
     ImageView imageView;
+    ImageView borderView;
     View v;
-    static Bitmap bm;
+    static Bitmap bmAvatar;
+    static Bitmap bmBorder;
+    int level;
 
     
     public AvatarFragment() {
@@ -35,31 +38,56 @@ public class AvatarFragment extends Fragment {
 
         //alterar imagem
         imageView = v.findViewById(R.id.topAvatar);
+        borderView = v.findViewById(R.id.moldura);
 
-        if (bm == null) {
+        if(bmBorder == null){
+            borderView.setImageResource(R.drawable.wood_border);
+
+            changeBorder(BitmapFactory.decodeResource(getResources(),R.drawable.wood_border));
+        }else{
+            borderView.setImageBitmap(bmBorder);
+        }
+
+
+        if (bmAvatar == null) {
             imageView.setImageResource(R.drawable.avatar_tree);
 
             changeAvatar(BitmapFactory.decodeResource(getResources(),R.drawable.avatar_tree));
         }
         else {
-            imageView.setImageBitmap(bm);
+            imageView.setImageBitmap(bmAvatar);
         }
 
         return v;
     }
 
+    private void setBorder() {
+
+    }
+
     public void changeAvatar(Bitmap s) {
-        bm = s;
+        bmAvatar = s;
         imageView = v.findViewById(R.id.topAvatar);
 
         imageView.setImageBitmap(s);
     }
 
     public void changeBorder(Bitmap s){
-        bm = s;
-        imageView = v.findViewById(R.id.moldura);
+        bmBorder = s;
+        borderView = v.findViewById(R.id.moldura);
 
-        imageView.setImageBitmap(s);
+        borderView.setImageBitmap(s);
 
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+
+        if(level > 10){
+            changeBorder(BitmapFactory.decodeResource(getResources(),R.drawable.gold_border));
+        }
+        else if(level > 5){
+            changeBorder(BitmapFactory.decodeResource(getResources(),R.drawable.silver_border));
+        }
     }
 }

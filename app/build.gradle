@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     signingConfigs {
         debug {
-            storeFile file('C:\\Users\\fc49498\\StudioProjects\\GoGreen\\keystore.jks')
+            storeFile file('/home/alex/AndroidStudioProjects/GoGreen/keystore.jks')
             storePassword 'cm1920'
             keyAlias = 'upload'
             keyPassword 'cm1920chave'
