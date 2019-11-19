@@ -23,10 +23,10 @@ public class AvatarFragment extends Fragment {
     View v;
     static Bitmap bm;
 
+    
     public AvatarFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,5 +53,13 @@ public class AvatarFragment extends Fragment {
         imageView = v.findViewById(R.id.topAvatar);
 
         imageView.setImageBitmap(s);
+    }
+
+    public void changeBorder(Bitmap s){
+        bm = s;
+        imageView = v.findViewById(R.id.moldura);
+
+        imageView.setImageBitmap(s);
+
     }
 }

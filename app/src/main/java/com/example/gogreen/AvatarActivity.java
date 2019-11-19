@@ -50,6 +50,7 @@ public class AvatarActivity extends AppCompatActivity {
         AvatarButtonsFragment buttonsFragment = new AvatarButtonsFragment();
         fragmentTransaction.add(R.id.avatar_buttons_frame, buttonsFragment);
 
+
         FriendsFragment friendsFragment = new FriendsFragment();
         fragmentTransaction.add(R.id.avatar_all_frame, friendsFragment);
 

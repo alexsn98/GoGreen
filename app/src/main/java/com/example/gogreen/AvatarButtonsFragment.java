@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 
 /**
@@ -19,6 +20,8 @@ public class AvatarButtonsFragment extends Fragment {
 
     private static View v;
     private static int gainedXP = 0;
+    private int level;
+
     public AvatarButtonsFragment() {
         // Required empty public constructor
     }
@@ -49,18 +52,40 @@ public class AvatarButtonsFragment extends Fragment {
     private void updateProgressBar() {
         ProgressBar progressBar = v.findViewById(R.id.progressBar);
 
+        TextView lvlAtual = v.findViewById(R.id.nivelAtual);
+        TextView lvlProx = v.findViewById(R.id.proxNivel);
+        TextView xPText = v.findViewById(R.id.xp_number);
+
+        int prox = Integer.valueOf(lvlProx.getText().toString());
+        String[] xp = xPText.getText().toString().split("/");
 
 
-        if(gainedXP > progressBar.getMax()){
+        if(gainedXP + progressBar.getProgress() > progressBar.getMax()){
             int nextLevelXP = progressBar.getProgress() - gainedXP;
             progressBar.setMax(progressBar.getMax() + 1000);
             progressBar.setProgress(0);
             progressBar.incrementProgressBy(nextLevelXP);
-        }else
+
+            lvlAtual.setText(String.valueOf(prox));
+            lvlProx.setText(String.valueOf(prox+1));
+
+            xp[0] = String.valueOf(progressBar.getProgress());
+            xp[1] = String.valueOf(progressBar.getMax());
+
+            xPText.setText(xp[0]+"/"+xp[1]);
+
+            level = prox;
+
+        }else{
             progressBar.incrementProgressBy(gainedXP);
+            xp[0] = String.valueOf(progressBar.getProgress());
+            xPText.setText(xp[0]+"/"+xp[1]);
+        }
 
         gainedXP = 0;
     }
 
-
+    public int getLevel(){
+        return this.level;
+    }
 }
