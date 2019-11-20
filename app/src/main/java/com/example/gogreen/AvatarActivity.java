@@ -29,7 +29,6 @@ public class AvatarActivity extends AppCompatActivity {
     private static int level = 1;
     private static int[] xp = {0,0};
     private static int coins = 0;
-    private LevelChangeListener listener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +113,12 @@ public class AvatarActivity extends AppCompatActivity {
                 fragmentTransaction.commit();
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        avatarFragment.updateCoins();
     }
 
     public void changeToEnciclopedia(View view) {

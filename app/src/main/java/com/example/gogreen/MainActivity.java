@@ -21,7 +21,10 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
@@ -60,13 +63,35 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
         getLocationPermission();
 
+        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.green_energy);
+
+        mMap.addMarker(new MarkerOptions()
+                .position(new LatLng(38.757105, -9.157004))
+                .title("Ecoponto C8")
+                .icon(icon));
+
+        mMap.addMarker(new MarkerOptions()
+                .position(new LatLng(38.755715, -9.155192))
+                .title("Ecoponto MiniCampus")
+                .icon(icon));
+
+        mMap.addMarker(new MarkerOptions()
+                .position(new LatLng(38.756398, -9.156882))
+                .title("Interruptor C1")
+                .icon(icon));
+
+        mMap.addMarker(new MarkerOptions()
+                .position(new LatLng(38.756280, -9.156047))
+                .title("Ecoponto C3")
+                .icon(icon));
+
         updateLocationUI();
 
         if (mLocationPermissionGranted) getDeviceLocation();
     }
 
     private void updateLocationUI() {
-        mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        //mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 
         if (mMap == null) return;
 
@@ -74,7 +99,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
             if (mLocationPermissionGranted) {
                 mMap.setMyLocationEnabled(true);
                 mMap.getUiSettings().setMyLocationButtonEnabled(true);
-                mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+                //mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
             }
 
             else {

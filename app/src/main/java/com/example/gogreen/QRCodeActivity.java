@@ -91,8 +91,6 @@ public class QRCodeActivity extends AppCompatActivity {
 
                 final SparseArray<Barcode> qrCodes = detections.getDetectedItems();
 
-
-
                 if (qrCodes.size() == 1 && !read) {
                     read = true;
                     String[] input = qrCodes.valueAt(0).displayValue.split(";");

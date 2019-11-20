@@ -91,4 +91,9 @@ public class AvatarFragment extends Fragment {
             changeBorder(BitmapFactory.decodeResource(getResources(),R.drawable.silver_border));
         }
     }
+
+    public void updateCoins() {
+        TextView coinsView = v.findViewById(R.id.coins);
+        coinsView.setText(String.valueOf(AvatarActivity.getCoins()));
+    }
 }

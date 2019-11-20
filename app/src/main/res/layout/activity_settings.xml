@@ -51,7 +51,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView19" />
 
     <TextView
-        android:id="@+id/textView15"
+        android:id="@+id/validMissionView"
         android:layout_width="wrap_content"
         android:layout_height="29dp"
         android:layout_marginStart="56dp"
@@ -102,7 +102,7 @@
         android:checked="true"
         android:theme="@style/SwitchTheme"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView15" />
+        app:layout_constraintTop_toBottomOf="@+id/validMissionView" />
 
     <TextView
         android:id="@+id/textView17"
@@ -117,7 +117,7 @@
         android:textColor="#282828"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView15" />
+        app:layout_constraintTop_toBottomOf="@+id/validMissionView" />
 
     <Switch
         android:id="@+id/switch3"
@@ -213,7 +213,7 @@
         android:layout_height="28dp"
         android:layout_marginTop="12dp"
         app:layout_constraintEnd_toStartOf="@+id/textView17"
-        app:layout_constraintTop_toBottomOf="@+id/textView15"
+        app:layout_constraintTop_toBottomOf="@+id/validMissionView"
         app:srcCompat="@drawable/notifications" />
 
     <ImageView

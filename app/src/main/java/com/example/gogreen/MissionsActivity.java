@@ -12,11 +12,19 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
 
 public class MissionsActivity extends AppCompatActivity {
     private static int missionD = 0;
     private static int missionS = 0;
     private static int missionsDone = 0;
+    private static ArrayList<Bitmap> missionsBitmaps = new ArrayList<>();
+    private static ArrayList<String> missionsText = new ArrayList<>();
+    private static String missionText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +34,7 @@ public class MissionsActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        DailyMissionsFragment daily = new DailyMissionsFragment();
+        final DailyMissionsFragment daily = new DailyMissionsFragment();
         fragmentTransaction.add(R.id.daily_missions_container, daily);
 
         WeeklyMissionsFragment weekly = new WeeklyMissionsFragment();
@@ -40,6 +48,8 @@ public class MissionsActivity extends AppCompatActivity {
         FrameLayout frame = findViewById(R.id.daily_missions_container);
         frame.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                TextView dailyMissionTextView = v.findViewById(R.id.dailyMissionText);
+                MissionsActivity.setMissionText(dailyMissionTextView.getText().toString());
                 dispatchTakePictureIntent(1);
             }
         });
@@ -47,6 +57,8 @@ public class MissionsActivity extends AppCompatActivity {
         FrameLayout frame1 = findViewById(R.id.weekly_missions_container);
         frame1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                TextView weeklyMissionTextView = v.findViewById(R.id.weeklyMissionText);
+                MissionsActivity.setMissionText(weeklyMissionTextView.getText().toString());
                 dispatchTakePictureIntent(2);
             }
         });
@@ -64,31 +76,46 @@ public class MissionsActivity extends AppCompatActivity {
         return missionsDone;
     }
 
+    public static String getMissionText() {
+        return missionText;
+    }
+
+    public static void setMissionText(String s) {
+        missionText = s;
+    }
+
+    public static ArrayList<Bitmap> getMissionsImages() {
+        return missionsBitmaps;
+    }
+
+    public static ArrayList<String> getMissionsTexts() {
+        return missionsText;
+    }
+
     private void dispatchTakePictureIntent(int missionType) {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(takePictureIntent, missionType);
         }
     }
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 1 && resultCode == RESULT_OK) {
-            missionD++;
-            missionsDone++;
 
+        if (resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
-            //imageView.setImageBitmap(imageBitmap);
-        }
+            missionsBitmaps.add(imageBitmap);
+            Log.d("picha", MissionsActivity.getMissionText());
+            missionsText.add(MissionsActivity.getMissionText());
 
-        if (requestCode == 2 && resultCode == RESULT_OK) {
-            missionS++;
+            //counters de missoes
             missionsDone++;
 
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            //imageView.setImageBitmap(imageBitmap);
+            if (requestCode == 1) missionD++;
+
+            if (requestCode == 2) missionS++;
         }
     }
 

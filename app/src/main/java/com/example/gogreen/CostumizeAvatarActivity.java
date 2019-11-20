@@ -6,13 +6,10 @@ import androidx.core.content.ContextCompat;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -22,6 +19,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
@@ -129,16 +127,16 @@ public class CostumizeAvatarActivity extends AppCompatActivity  {
 
         chosenBorder = currentImage.getDrawable();
 
+        Bitmap bitmap = ((BitmapDrawable) image.getDrawable()).getBitmap();
+
         if(image.getColorFilter() == null){
             borderView = findViewById(R.id.borderView);
             borderView.setImageBitmap(null);
-            borderView.setBackground(chosenBorder);
+            borderView.setBackground(image.getDrawable());
             chosenBorder = image.getDrawable();
         }
 
         Intent returnIntent = new Intent();
-
-        Bitmap bitmap = ((BitmapDrawable) chosenBorder).getBitmap();
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
@@ -154,25 +152,22 @@ public class CostumizeAvatarActivity extends AppCompatActivity  {
         ImageView currentImage = findViewById((R.id.avatar));
         image = findViewById(view.getId());
 
-        image = findViewById(view.getId());
-
         chosenAvatar = currentImage.getDrawable();
 
-        if(image.getColorFilter() == null) {
+        Bitmap bitmap = ((BitmapDrawable) image.getDrawable()).getBitmap();
+
+        if(characters.get(view.getId())) {
             avatar = findViewById(R.id.avatar);
             avatar.setImageBitmap(null);
-            avatar.setBackground(chosenAvatar);
+            avatar.setBackground(image.getDrawable());
             chosenAvatar = image.getDrawable();
         }
 
         else {
-            buyCharacter(view);
-            //tirar filtro e passar a true no hash map
+            buyCharacter(view, image.getDrawable());
         }
 
         Intent returnIntent = new Intent();
-
-        Bitmap bitmap = ((BitmapDrawable) chosenAvatar).getBitmap();
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
@@ -184,11 +179,19 @@ public class CostumizeAvatarActivity extends AppCompatActivity  {
         setResult(Activity.RESULT_OK, returnIntent);
     }
 
-    public void buyCharacter(View view) {
+    public void buyCharacter(final View view, Drawable avatarImage) {
         // inflate the layout of the popup window
         LayoutInflater inflater = (LayoutInflater)
                 getSystemService(LAYOUT_INFLATER_SERVICE);
-        View popupView = inflater.inflate(R.layout.activity_fact_card, null);
+        View popupView = inflater.inflate(R.layout.popup_buy, null);
+
+        Drawable popupAvatarImage = avatarImage.getConstantState().newDrawable().mutate();
+
+        final int avatarID = view.getId();
+        final Drawable finalAvatarImage = avatarImage;
+        //remove saturation
+        final ColorMatrix popupMatrix = new ColorMatrix();
+        popupMatrix.setSaturation(1);
 
         // create the popup window
         int width = 900;
@@ -197,12 +200,36 @@ public class CostumizeAvatarActivity extends AppCompatActivity  {
         final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
 
         TextView t = popupView.findViewById(R.id.popup_text);
+        ImageView avatarImageView = popupView.findViewById(R.id.characterChosen);
 
-        popupWindow.setBackgroundDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.card_brown));
+        popupAvatarImage.setColorFilter(new ColorMatrixColorFilter(popupMatrix));
+        avatarImageView.setBackground(popupAvatarImage);
+
+        popupWindow.setBackgroundDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.popupbuy_draw));
         t.setText("C O M P R A R ?");
 
-        //dar pop up novo com dois butoes e o comprar fica disabled se current coins < price
+        popupView.findViewById(R.id.buy).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (AvatarActivity.getCoins() >= 20) {
+                    finalAvatarImage.setColorFilter(new ColorMatrixColorFilter(popupMatrix));
 
+                    characters.put(avatarID, true);
+                    AvatarActivity.setCoins(AvatarActivity.getCoins() - 20);
+                    TextView costumizeCoinsView = findViewById(R.id.costumizeCoins);
+                    costumizeCoinsView.setText(String.valueOf(AvatarActivity.getCoins()));
+
+                    popupWindow.dismiss();
+                }
+
+                else {
+                    Toast.makeText(v.getContext(), "Não tens moedas", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+
+        //comprar fica disabled se current coins < price
 
         // show the popup window
         // which view you pass in doesn't matter, it is only used for the window tolken
