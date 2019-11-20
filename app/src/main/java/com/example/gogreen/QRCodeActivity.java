@@ -104,6 +104,7 @@ public class QRCodeActivity extends AppCompatActivity {
                     if (input.length > 2) s.concat(" e a carta " + input[2]);
 
                     AvatarButtonsFragment.increaseXP(Integer.valueOf(input[0]));
+                    AvatarActivity.setCoins(AvatarActivity.getCoins() + Integer.valueOf(input[1]));
 
                     vibrator.cancel();
 

@@ -24,7 +24,7 @@ public class AvatarFragment extends Fragment {
     View v;
     static Bitmap bmAvatar;
     static Bitmap bmBorder;
-    int level;
+    static int level;
 
     
     public AvatarFragment() {
@@ -58,12 +58,13 @@ public class AvatarFragment extends Fragment {
             imageView.setImageBitmap(bmAvatar);
         }
 
+        //set coins
+        TextView coinsView = v.findViewById(R.id.coins);
+        coinsView.setText(String.valueOf(AvatarActivity.getCoins()));
+
         return v;
     }
 
-    private void setBorder() {
-
-    }
 
     public void changeAvatar(Bitmap s) {
         bmAvatar = s;
@@ -83,10 +84,10 @@ public class AvatarFragment extends Fragment {
     public void setLevel(int level) {
         this.level = level;
 
-        if(level > 10){
+        if(level >= 10){
             changeBorder(BitmapFactory.decodeResource(getResources(),R.drawable.gold_border));
         }
-        else if(level > 5){
+        else if(level >= 5){
             changeBorder(BitmapFactory.decodeResource(getResources(),R.drawable.silver_border));
         }
     }

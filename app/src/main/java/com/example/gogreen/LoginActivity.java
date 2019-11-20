@@ -65,6 +65,7 @@ public class LoginActivity extends AppCompatActivity {
 
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
+            finish();
         }
     }
     public static String getUsername() {
@@ -105,6 +106,7 @@ public class LoginActivity extends AppCompatActivity {
 
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
+            finish();
         }
         catch (ApiException e) {
             Log.w("pau", "signInResult:failed code=" + e.getMessage());

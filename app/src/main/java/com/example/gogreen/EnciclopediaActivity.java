@@ -64,6 +64,4 @@ public class EnciclopediaActivity extends AppCompatActivity {
             }
         });
     }
-
-
 }

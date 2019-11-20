@@ -15,7 +15,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.gogreen.AvatarButtonsFragment.LevelChangeListener;
@@ -28,9 +27,8 @@ public class AvatarActivity extends AppCompatActivity {
 
     private static int gainedXP = 0;
     private static int level = 1;
-
-
     private static int[] xp = {0,0};
+    private static int coins = 0;
     private LevelChangeListener listener;
 
     @Override
@@ -38,6 +36,7 @@ public class AvatarActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_avatar);
 
+        if(xp[1] == 0) xp[1] = 1000;
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -59,11 +58,6 @@ public class AvatarActivity extends AppCompatActivity {
         fragmentTransaction.add(R.id.avatar_all_frame, friendsFragment);
 
         fragmentTransaction.commit();
-
-        if(xp[1] == 0)
-            xp[1] = 1000;
-
-
 
         username = LoginActivity.getUsername();
         //alterar nome
@@ -150,12 +144,18 @@ public class AvatarActivity extends AppCompatActivity {
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
                 Bundle extras = data.getExtras();
-                byte[] result = extras.getByteArray("result");
-                Bitmap bm = BitmapFactory.decodeByteArray(result,0,result.length);
-                avatarFragment.changeAvatar(bm);
-            }
-            if (resultCode == Activity.RESULT_CANCELED) {
 
+                if (extras.getByteArray("resultAvatar") != null) {
+                    byte[] resultAvatar = extras.getByteArray("resultAvatar");
+                    Bitmap bmAvatar = BitmapFactory.decodeByteArray(resultAvatar,0,resultAvatar.length);
+                    avatarFragment.changeAvatar(bmAvatar);
+                }
+
+                if (extras.getByteArray("resultBorder") != null) {
+                    byte[] resultBorder = extras.getByteArray("resultBorder");
+                    Bitmap bmBorder = BitmapFactory.decodeByteArray(resultBorder,0,resultBorder.length);
+                    avatarFragment.changeBorder(bmBorder);
+                }
             }
         }
     }
@@ -243,13 +243,19 @@ public class AvatarActivity extends AppCompatActivity {
         AvatarActivity.level = level;
     }
 
-
-
     public static int[] getXp() {
         return xp;
     }
 
     public static void setXp(int[] xp) {
         AvatarActivity.xp = xp;
+    }
+
+    public static int getCoins() {
+        return coins;
+    }
+
+    public static void setCoins(int coins) {
+        AvatarActivity.coins = coins;
     }
 }
