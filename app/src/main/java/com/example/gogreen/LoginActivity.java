@@ -43,9 +43,9 @@ public class LoginActivity extends AppCompatActivity {
     static GoogleSignInClient mGoogleSignInClient;
     static GoogleSignInAccount gs;
     private static String username;
-    private FirebaseAuth mFirebaseAuth;
+
     private DatabaseReference mFirebaseDatabaseReference;
-    private User user;
+    private static User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        mFirebaseAuth = FirebaseAuth.getInstance();
+
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
 
         findViewById(R.id.sign_in_button).setOnClickListener(new View.OnClickListener() {
@@ -148,6 +148,9 @@ public class LoginActivity extends AppCompatActivity {
 
 
                 }
+                if(!b[0])
+                    mFirebaseDatabaseReference.child("USERS").child(account.getId()).setValue(new User(account.getId() , getUsername()));
+
             }
 
             @Override
@@ -155,15 +158,14 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
-        if(!b[0])
-            mFirebaseDatabaseReference.child("USERS").child(account.getId()).setValue(new User(account.getId() , "picha"));
+
     }
 
 
 
 
 
-    public User getUserLogged(){
+    public static User getUserLogged(){
         return user;
     }
 }

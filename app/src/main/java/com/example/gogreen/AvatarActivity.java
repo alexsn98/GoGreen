@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
@@ -233,7 +234,7 @@ public class AvatarActivity extends AppCompatActivity {
     }
 
     public static int getGainedXP() {
-        return gainedXP;
+        return LoginActivity.getUserLogged().getXp();
     }
 
     public static void setGainedXP(int gainedXP) {
@@ -257,10 +258,8 @@ public class AvatarActivity extends AppCompatActivity {
     }
 
     public static int getCoins() {
-        return coins;
+        return LoginActivity.getUserLogged().getCoins();
     }
 
-    public static void setCoins(int coins) {
-        AvatarActivity.coins = coins;
-    }
+
 }

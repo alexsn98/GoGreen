@@ -17,7 +17,7 @@ public class User {
 
     public User(String id , String name){
         this.id = id;
-        this.level = 0;
+        this.level = 1;
         this.xp = 0;
         this.name = name;
         this.avatar = "avatar_tree";

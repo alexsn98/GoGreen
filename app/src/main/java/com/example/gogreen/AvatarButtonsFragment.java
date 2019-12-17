@@ -46,8 +46,8 @@ public class AvatarButtonsFragment extends Fragment {
 
         v = inflater.inflate(R.layout.fragment_avatar_buttons, container, false);
 
-        gainedXP = AvatarActivity.getGainedXP();
-        level = AvatarActivity.getLevel();
+        gainedXP = LoginActivity.getUserLogged().getXp();
+
         //progressBar = AvatarActivity.getProgressBar();
 
         progressBar = v.findViewById(R.id.progressBar);
@@ -55,8 +55,8 @@ public class AvatarButtonsFragment extends Fragment {
 
         xp = AvatarActivity.getXp();
 
-        progressBar.setProgress(xp[0]);
-        progressBar.setMax(xp[1]);
+        progressBar.setProgress(LoginActivity.getUserLogged().getXp());
+        progressBar.setMax(LoginActivity.getUserLogged().getLevel() * 1000);
         updateProgressBar();
 
         return v;

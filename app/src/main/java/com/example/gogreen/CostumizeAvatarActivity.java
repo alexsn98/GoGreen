@@ -215,7 +215,7 @@ public class CostumizeAvatarActivity extends AppCompatActivity  {
                     finalAvatarImage.setColorFilter(new ColorMatrixColorFilter(popupMatrix));
 
                     characters.put(avatarID, true);
-                    AvatarActivity.setCoins(AvatarActivity.getCoins() - 20);
+                    LoginActivity.getUserLogged().setCoins( LoginActivity.getUserLogged().getCoins() - 20);
                     TextView costumizeCoinsView = findViewById(R.id.costumizeCoins);
                     costumizeCoinsView.setText(String.valueOf(AvatarActivity.getCoins()));
 
