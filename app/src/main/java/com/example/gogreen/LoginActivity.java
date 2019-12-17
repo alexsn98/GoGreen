@@ -1,5 +1,6 @@
 package com.example.gogreen;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
@@ -10,42 +11,60 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.example.gogreen.FirebaseModels.User;
+import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
 public class LoginActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 1;
-    EditText usernameField;
     private static boolean doLogin = true;
-    EditText passwordField;
-    Button loginButton;
     static GoogleSignInClient mGoogleSignInClient;
     static GoogleSignInAccount gs;
     private static String username;
+    private FirebaseAuth mFirebaseAuth;
+    private DatabaseReference mFirebaseDatabaseReference;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        usernameField  = findViewById(R.id.nome);
-        passwordField = findViewById(R.id.password);
-        loginButton = findViewById(R.id.loginButton);
+
         getSupportActionBar().hide(); //esconder app bar
+
 
         //login auth google
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken("36264021532-jl8jllfkqvk95ve1bit1md9ae8rrft7p.apps.googleusercontent.com")
                 .requestEmail()
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
 
         findViewById(R.id.sign_in_button).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -62,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
 
         if (gs != null) {
             setUsername(gs.getDisplayName());
-
+            findUser(gs);
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
             finish();
@@ -93,87 +112,58 @@ public class LoginActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == RC_SIGN_IN) {
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            handleSignInResult(task);
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+
+            if (result.isSuccess()) {
+                // Google Sign-In was successful, authenticate with Firebase
+                final GoogleSignInAccount account = result.getSignInAccount();
+                setUsername(account.getDisplayName().split(" ")[0]);
+
+                findUser(account);
+
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                finish();
+
+            } else {
+                // Google Sign-In failed
+                Log.e("TAG", "Google Sign-In failed.");
+            }
         }
+    }
+    private void findUser(final GoogleSignInAccount account){
+        Query query = mFirebaseDatabaseReference.child("USERS").orderByChild("id").equalTo(account.getId());
+
+        final boolean[] b = {false};
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                    for(DataSnapshot ds : dataSnapshot.getChildren()){
+                        User u = ds.getValue(User.class);
+                        if(u.getId().compareTo(account.getId()) == 0){
+                            user = u;
+                            b[0] = true;
+                        }
+
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        if(!b[0])
+            mFirebaseDatabaseReference.child("USERS").child(account.getId()).setValue(new User(account.getId() , "picha"));
     }
 
 
-    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
-        try {
-            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-            setUsername(account.getDisplayName().split(" ")[0]);
-
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            finish();
-        }
-        catch (ApiException e) {
-            Log.w("pau", "signInResult:failed code=" + e.getMessage());
-            //updateUI(null);
-        }
-    }
 
 
 
-
-
-    public void login(View v) {
-        if (!validate()) {
-            return;
-        }
-
-        loginButton.setEnabled(false);
-
-        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this,
-                R.style.Theme_MaterialComponents_Light_Dialog);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Authenticating...");
-        progressDialog.show();
-
-        String email = usernameField.getText().toString();
-        String password = passwordField.getText().toString();
-
-        // TODO: Implement your own authentication logic here.
-
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onLoginSuccess or onLoginFailed
-                        onLoginSuccess();
-                        // onLoginFailed();
-                        progressDialog.dismiss();
-                    }
-                }, 2000);
-    }
-
-    public void onLoginSuccess() {
-        loginButton.setEnabled(true);
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-        finish();
-    }
-
-    public boolean validate() {
-        boolean valid = true;
-
-        String username = usernameField.getText().toString();
-        String password = passwordField.getText().toString();
-
-        if (username.isEmpty()) {
-            usernameField.setError("enter a valid name");
-            valid = false;
-        } else {
-            usernameField.setError(null);
-        }
-
-        if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            passwordField.setError("between 4 and 10 alphanumeric characters");
-            valid = false;
-        } else {
-            passwordField.setError(null);
-        }
-
-        return valid;
+    public User getUserLogged(){
+        return user;
     }
 }
