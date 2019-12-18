@@ -99,4 +99,8 @@ public class User {
     public void addAvatar(int avatar) {
         this.avatars.add(avatar);
     }
+
+    public void setBorder(int chosenBorderId) {
+
+    }
 }

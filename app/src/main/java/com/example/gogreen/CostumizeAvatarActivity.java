@@ -37,6 +37,7 @@ public class CostumizeAvatarActivity extends AppCompatActivity  {
     ImageView avatarView;
     ColorMatrix matrix;
     static HashMap<Integer, Integer> characters = new HashMap<>();
+    static HashMap<Integer, Integer> borders = new HashMap<>();
     private DatabaseReference mFirebaseDatabaseReference;
 
     static Bitmap bm;
@@ -62,6 +63,12 @@ public class CostumizeAvatarActivity extends AppCompatActivity  {
             characters.put(R.id.character3, R.drawable.greenzao);
             characters.put(R.id.character4, R.drawable.redzao);
             characters.put(R.id.character5, R.drawable.recyclesign1);
+        }
+
+        if(borders.isEmpty()){
+            borders.put(R.id.wood, R.drawable.wood_border);
+            borders.put(R.id.silver, R.drawable.silver_border);
+            borders.put(R.id.gold, R.drawable.gold_border);
         }
 
         int level = LoginActivity.getUserLogged().getLevel();
@@ -126,26 +133,19 @@ public class CostumizeAvatarActivity extends AppCompatActivity  {
         image = findViewById(view.getId());
 
         chosenBorder = currentImage.getDrawable();
+        int chosenBorderId = borders.get(view.getId());
 
-        Bitmap bitmap = ((BitmapDrawable) image.getDrawable()).getBitmap();
+        LoginActivity.getUserLogged().setBorder(chosenBorderId);
+        mFirebaseDatabaseReference.child("USERS").child(LoginActivity.getUserLogged().getId()).child("moldura").setValue(chosenBorderId);
 
-        if(image.getColorFilter() == null){
-            borderView = findViewById(R.id.borderView);
-            borderView.setImageBitmap(null);
-            borderView.setBackground(image.getDrawable());
-            chosenBorder = image.getDrawable();
-        }
+        currentImage.setImageBitmap(((BitmapDrawable) getResources().getDrawable(chosenBorderId)).getBitmap());
 
-        Intent returnIntent = new Intent();
-
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        byte [] b = baos.toByteArray();
-        returnIntent.putExtra("resultBorder", b);
-
-        bmBorder = bitmap;
-
-        setResult(Activity.RESULT_OK, returnIntent);
+//        if(image.getColorFilter() == null){
+//            borderView = findViewById(R.id.borderView);
+//            borderView.setImageBitmap(null);
+//            borderView.setBackground(image.getDrawable());
+//            chosenBorder = image.getDrawable();
+//        }
     }
 
     public void changeAvatar(View view){
@@ -158,6 +158,7 @@ public class CostumizeAvatarActivity extends AppCompatActivity  {
         LoginActivity.getUserLogged().setAvatar(chosenAvatarId);
         mFirebaseDatabaseReference.child("USERS").child(LoginActivity.getUserLogged().getId()).child("avatar").setValue(chosenAvatarId);
 
+        currentImage.setImageBitmap(((BitmapDrawable) getResources().getDrawable(chosenAvatarId)).getBitmap());
 //        if(characters.get(view.getId())) {
 //            avatarView = findViewById(R.id.avatar);
 //            avatarView.setImageBitmap(null);
