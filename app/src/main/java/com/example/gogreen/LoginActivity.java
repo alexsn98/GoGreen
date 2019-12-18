@@ -37,6 +37,11 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
+import java.sql.Array;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 public class LoginActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 1;
     private static boolean doLogin = true;
@@ -145,12 +150,16 @@ public class LoginActivity extends AppCompatActivity {
                             user = u;
                             b[0] = true;
                         }
-
-
                 }
-                if(!b[0])
-                    mFirebaseDatabaseReference.child("USERS").child(account.getId()).setValue(new User(account.getId() , getUsername()));
 
+                if(!b[0]) {
+                    User u = new User(account.getId(), getUsername());
+                    mFirebaseDatabaseReference.child("USERS").child(account.getId()).setValue(u);
+
+
+                    u.addAvatar(R.id.character0);
+                    mFirebaseDatabaseReference.child("USERS").child(account.getId()).child("AVATARS").setValue(u.getAvatars());
+                }
             }
 
             @Override
@@ -160,10 +169,6 @@ public class LoginActivity extends AppCompatActivity {
         });
 
     }
-
-
-
-
 
     public static User getUserLogged(){
         return user;

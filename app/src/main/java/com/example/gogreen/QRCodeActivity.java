@@ -79,7 +79,6 @@ public class QRCodeActivity extends AppCompatActivity {
 
             @Override
             public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-
             }
 
             @Override
@@ -113,7 +112,6 @@ public class QRCodeActivity extends AppCompatActivity {
 
                     Query query = mFirebaseDatabaseReference.child("QRCODES").orderByChild("id").equalTo(Integer.valueOf(input));
 
-
                     query.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -132,15 +130,8 @@ public class QRCodeActivity extends AppCompatActivity {
                                     mFirebaseDatabaseReference.child("USERS").child(LoginActivity.getUserLogged().getId()).child("xp").setValue(prev_xp + q.getXp());
                                     LoginActivity.getUserLogged().setXp(prev_xp + q.getXp());
 
-
-                                    AvatarButtonsFragment.increaseXP(q.getXp());
-
-
-
-
                                     mFirebaseDatabaseReference.child("USERS").child(LoginActivity.getUserLogged().getId()).child("coins").setValue(coins + q.getCoins());
                                     LoginActivity.getUserLogged().setCoins(coins + q.getCoins());
-
 
                                     vibrator.cancel();
 

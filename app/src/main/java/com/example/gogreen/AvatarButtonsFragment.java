@@ -1,8 +1,10 @@
 package com.example.gogreen;
 
 
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -11,6 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 
 /**
@@ -21,10 +26,9 @@ public class AvatarButtonsFragment extends Fragment {
     private static View v;
 
     private static int gainedXP ;
-    private static int level;
     private static ProgressBar progressBar;
-    private static int[] xp ;
     private LevelChangeListener listener;
+    private DatabaseReference mFirebaseDatabaseReference;
 
     public interface LevelChangeListener{
         public void onLevelChange(int level);
@@ -34,11 +38,7 @@ public class AvatarButtonsFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static void increaseXP(int received_xp) {
-        AvatarActivity.setGainedXP(AvatarActivity.getGainedXP() + received_xp);
-    }
-
-
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -46,68 +46,54 @@ public class AvatarButtonsFragment extends Fragment {
 
         v = inflater.inflate(R.layout.fragment_avatar_buttons, container, false);
 
+        mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
         gainedXP = LoginActivity.getUserLogged().getXp();
 
         //progressBar = AvatarActivity.getProgressBar();
 
         progressBar = v.findViewById(R.id.progressBar);
-
-
-        xp = AvatarActivity.getXp();
-
-        progressBar.setProgress(LoginActivity.getUserLogged().getXp());
-        progressBar.setMax(LoginActivity.getUserLogged().getLevel() * 1000);
         updateProgressBar();
 
         return v;
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void updateProgressBar() {
         TextView lvlAtualView = v.findViewById(R.id.nivelAtual);
         TextView lvlProxView = v.findViewById(R.id.proxNivel);
         TextView xPTextView = v.findViewById(R.id.xp_number);
 
+        int currentLevel = LoginActivity.getUserLogged().getLevel();
+        int currentXP = LoginActivity.getUserLogged().getXp();
 
-        if(gainedXP + xp[0] >= progressBar.getMax()){
-            Log.d("pau1", String.valueOf(gainedXP+progressBar.getProgress()));
-            int nextLevelXP = Math.abs(progressBar.getMax() - (xp[0] + gainedXP));
+        progressBar.setMax(LoginActivity.getUserLogged().getLevel() * 1000);
+
+        progressBar.setProgress(0);
+        progressBar.incrementProgressBy(currentXP);
+
+        if (currentXP >= progressBar.getMax()) {
+            currentLevel++;
+
+            currentXP = Math.abs(progressBar.getMax() - currentXP);
 
             progressBar.setMax(progressBar.getMax() + 1000);
+
             progressBar.setProgress(0);
-            progressBar.incrementProgressBy(nextLevelXP);
+            progressBar.incrementProgressBy(currentXP);
 
-            lvlAtualView.setText(String.valueOf(++level));
-            lvlProxView.setText(String.valueOf(level+1));
+            LoginActivity.getUserLogged().setXp(currentXP);
+            LoginActivity.getUserLogged().setLevel(currentLevel);
 
-            xp[0] = nextLevelXP;
-            xp[1] = progressBar.getMax();
-
-            xPTextView.setText(xp[0]+"/"+xp[1]);
-
-
-            if (listener != null) {
-                listener.onLevelChange(level);
-            }
+            mFirebaseDatabaseReference.child("USERS").child(LoginActivity.getUserLogged().getId()).child("xp").setValue(currentXP);
+            mFirebaseDatabaseReference.child("USERS").child(LoginActivity.getUserLogged().getId()).child("level").setValue(currentLevel);
         }
 
-        else{
-            Log.d("pixa", String.valueOf(gainedXP));
-            progressBar.setProgress(xp[0] + gainedXP);
+        lvlAtualView.setText(String.valueOf(currentLevel));
+        lvlProxView.setText(String.valueOf(currentLevel + 1));
 
-            xp[0] = progressBar.getProgress();
-            xp[1] = progressBar.getMax();
-            lvlAtualView.setText(String.valueOf(level));
-            lvlProxView.setText(String.valueOf(level+1));
-            xPTextView.setText(xp[0]+"/"+xp[1]);
-
-        }
-        AvatarActivity.setGainedXP(0);
-        AvatarActivity.setXp(xp);
-        AvatarActivity.setLevel(level);
-
+        xPTextView.setText(currentXP + "/" + currentLevel * 1000);
     }
-
 
 
     public void setLevelChangeListener(LevelChangeListener listener) {

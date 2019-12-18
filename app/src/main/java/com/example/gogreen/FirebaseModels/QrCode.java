@@ -7,7 +7,6 @@ public class QrCode {
     private int xp;
     private boolean hasCard;
 
-
     public QrCode(){
 
     }

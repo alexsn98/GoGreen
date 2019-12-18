@@ -129,8 +129,7 @@ public class AvatarActivity extends AppCompatActivity {
 
     public void changeToCostumize(View view) {
         Intent intent = new Intent(this, CostumizeAvatarActivity.class);
-
-        startActivityForResult(intent, 1);
+        startActivity(intent);
     }
 
     public void changeToValidGreen(View view) {
@@ -142,28 +141,6 @@ public class AvatarActivity extends AppCompatActivity {
         Intent intent = new Intent(this, SettingsActivity.class);
 
         startActivity(intent);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1) {
-            if (resultCode == Activity.RESULT_OK) {
-                Bundle extras = data.getExtras();
-
-                if (extras.getByteArray("resultAvatar") != null) {
-                    byte[] resultAvatar = extras.getByteArray("resultAvatar");
-                    Bitmap bmAvatar = BitmapFactory.decodeByteArray(resultAvatar,0,resultAvatar.length);
-                    avatarFragment.changeAvatar(bmAvatar);
-                }
-
-                if (extras.getByteArray("resultBorder") != null) {
-                    byte[] resultBorder = extras.getByteArray("resultBorder");
-                    Bitmap bmBorder = BitmapFactory.decodeByteArray(resultBorder,0,resultBorder.length);
-                    avatarFragment.changeBorder(bmBorder);
-                }
-            }
-        }
     }
 
     public class OnSwipeTouchListener implements OnTouchListener {
@@ -232,34 +209,4 @@ public class AvatarActivity extends AppCompatActivity {
         public void onSwipeBottom() {
         }
     }
-
-    public static int getGainedXP() {
-        return LoginActivity.getUserLogged().getXp();
-    }
-
-    public static void setGainedXP(int gainedXP) {
-        AvatarActivity.gainedXP = gainedXP;
-    }
-
-    public static int getLevel() {
-        return level;
-    }
-
-    public static void setLevel(int level) {
-        AvatarActivity.level = level;
-    }
-
-    public static int[] getXp() {
-        return xp;
-    }
-
-    public static void setXp(int[] xp) {
-        AvatarActivity.xp = xp;
-    }
-
-    public static int getCoins() {
-        return LoginActivity.getUserLogged().getCoins();
-    }
-
-
 }

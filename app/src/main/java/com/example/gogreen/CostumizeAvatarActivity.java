@@ -12,6 +12,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -21,17 +22,22 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CostumizeAvatarActivity extends AppCompatActivity  {
     ImageView image;
     Drawable chosenAvatar;
     Drawable chosenBorder;
-    ImageView avatar;
+    ImageView avatarView;
     ColorMatrix matrix;
-    static HashMap<Integer, Boolean> characters = new HashMap<>();
+    static HashMap<Integer, Integer> characters = new HashMap<>();
+    private DatabaseReference mFirebaseDatabaseReference;
 
     static Bitmap bm;
     static Bitmap bmBorder;
@@ -43,48 +49,37 @@ public class CostumizeAvatarActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_costumize_avatar);
 
+        mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
+
         //set coins
         TextView coinsView = findViewById(R.id.costumizeCoins);
-        coinsView.setText(String.valueOf(AvatarActivity.getCoins()));
+        coinsView.setText(String.valueOf(LoginActivity.getUserLogged().getCoins()));
 
         if (characters.size() == 0) {
-            characters.put(R.id.character0, true);
-            characters.put(R.id.character1, false);
-            characters.put(R.id.character2, false);
-            characters.put(R.id.character3, false);
-            characters.put(R.id.character4, false);
-            characters.put(R.id.character5, false);
+            characters.put(R.id.character0, R.drawable.avatar_tree);
+            characters.put(R.id.character1, R.drawable.bluezao);
+            characters.put(R.id.character2, R.drawable.yellowzao);
+            characters.put(R.id.character3, R.drawable.greenzao);
+            characters.put(R.id.character4, R.drawable.redzao);
+            characters.put(R.id.character5, R.drawable.recyclesign1);
         }
 
-        int level = AvatarActivity.getLevel();
+        int level = LoginActivity.getUserLogged().getLevel();
 
         //grey filter
         matrix = new ColorMatrix();
         matrix.setSaturation(0);
 
-        avatar = findViewById(R.id.avatar);
+        avatarView = findViewById(R.id.avatar);
         borderView = findViewById(R.id.borderView);
 
-        //change avatar
-        if (bm != null) {
-            avatar.setImageBitmap(bm);
-        }
+        int avatarId = LoginActivity.getUserLogged().getAvatar();
+        bm = ((BitmapDrawable) getResources().getDrawable(avatarId)).getBitmap();
+        avatarView.setImageBitmap(bm);
 
-        else {
-            Bitmap defaultAvatar = ((BitmapDrawable) getResources().getDrawable(R.drawable.avatar_tree)).getBitmap();
-
-            avatar.setImageBitmap(defaultAvatar);
-        }
-
-        //change border
-        if (bmBorder != null) {
-            borderView.setImageBitmap(bmBorder);
-        }
-
-        else {
-            Bitmap defaultBorder = ((BitmapDrawable) getResources().getDrawable(R.drawable.wood_border)).getBitmap();
-            borderView.setImageBitmap(defaultBorder);
-        }
+        int borderId = LoginActivity.getUserLogged().getMoldura();
+        bmBorder = ((BitmapDrawable) getResources().getDrawable(borderId)).getBitmap();
+        borderView.setImageBitmap(bmBorder);
 
         //lock das borders
         if(level < 5){
@@ -98,7 +93,7 @@ public class CostumizeAvatarActivity extends AppCompatActivity  {
         }
 
         //lock characters
-        for(Map.Entry<Integer, Boolean> entry : characters.entrySet()) {
+        /*for(Map.Entry<Integer, Boolean> entry : characters.entrySet()) {
             Integer key = entry.getKey();
             Boolean value = entry.getValue();
 
@@ -106,22 +101,27 @@ public class CostumizeAvatarActivity extends AppCompatActivity  {
                 ImageView currentView = findViewById(key);
                 currentView.setColorFilter(new ColorMatrixColorFilter(matrix));
             }
-        }
+        }*/
 
     }
 
     @Override
     public void onResume(){
         super.onResume();
-        if(chosenAvatar != null) avatar.setBackground(chosenAvatar);
-        if(chosenBorder != null) borderView.setBackground(chosenBorder);
+
+        avatarView.setImageBitmap(bm);
+        borderView.setImageBitmap(bmBorder);
+
+        //if(chosenAvatar != null) avatarView.setBackground(chosenAvatar);
+        //if(chosenBorder != null) borderView.setBackground(chosenBorder);
 
         //set coins
         TextView coinsView = findViewById(R.id.costumizeCoins);
-        coinsView.setText(String.valueOf(AvatarActivity.getCoins()));
+        coinsView.setText(String.valueOf(LoginActivity.getUserLogged().getCoins()));
     }
 
     public void changeBorder(View view){
+
         ImageView currentImage = findViewById((R.id.borderView));
         image = findViewById(view.getId());
 
@@ -153,30 +153,19 @@ public class CostumizeAvatarActivity extends AppCompatActivity  {
         image = findViewById(view.getId());
 
         chosenAvatar = currentImage.getDrawable();
+        int chosenAvatarId = characters.get(view.getId());
 
-        Bitmap bitmap = ((BitmapDrawable) image.getDrawable()).getBitmap();
+        LoginActivity.getUserLogged().setAvatar(chosenAvatarId);
+        mFirebaseDatabaseReference.child("USERS").child(LoginActivity.getUserLogged().getId()).child("avatar").setValue(chosenAvatarId);
 
-        if(characters.get(view.getId())) {
-            avatar = findViewById(R.id.avatar);
-            avatar.setImageBitmap(null);
-            avatar.setBackground(image.getDrawable());
-            chosenAvatar = image.getDrawable();
-        }
+//        if(characters.get(view.getId())) {
+//            avatarView = findViewById(R.id.avatar);
+//            avatarView.setImageBitmap(null);
+//            avatarView.setBackground(image.getDrawable());
+//            chosenAvatar = image.getDrawable();
+//        }
 
-        else {
-            buyCharacter(view, image.getDrawable());
-        }
-
-        Intent returnIntent = new Intent();
-
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        byte [] b = baos.toByteArray();
-        returnIntent.putExtra("resultAvatar", b);
-
-        bm = bitmap;
-
-        setResult(Activity.RESULT_OK, returnIntent);
+//        buyCharacter(view, image.getDrawable());
     }
 
     public void buyCharacter(final View view, Drawable avatarImage) {
@@ -211,13 +200,13 @@ public class CostumizeAvatarActivity extends AppCompatActivity  {
         popupView.findViewById(R.id.buy).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (AvatarActivity.getCoins() >= 20) {
+                if (LoginActivity.getUserLogged().getCoins() >= 20) {
                     finalAvatarImage.setColorFilter(new ColorMatrixColorFilter(popupMatrix));
 
-                    characters.put(avatarID, true);
+                    //characters.put(avatarID, true);
                     LoginActivity.getUserLogged().setCoins( LoginActivity.getUserLogged().getCoins() - 20);
                     TextView costumizeCoinsView = findViewById(R.id.costumizeCoins);
-                    costumizeCoinsView.setText(String.valueOf(AvatarActivity.getCoins()));
+                    costumizeCoinsView.setText(String.valueOf(LoginActivity.getUserLogged().getCoins()));
 
                     popupWindow.dismiss();
                 }

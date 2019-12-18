@@ -9,6 +9,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,31 +41,25 @@ public class AvatarFragment extends Fragment {
         imageView = v.findViewById(R.id.topAvatar);
         borderView = v.findViewById(R.id.moldura);
 
-        if(bmBorder == null){
-            borderView.setImageResource(R.drawable.wood_border);
+        borderView.setImageResource(LoginActivity.getUserLogged().getMoldura());
 
-            changeBorder(BitmapFactory.decodeResource(getResources(),R.drawable.wood_border));
-        }else{
-            borderView.setImageBitmap(bmBorder);
-        }
-
-
-        if (bmAvatar == null) {
-            imageView.setImageResource(R.drawable.avatar_tree);
-
-            changeAvatar(BitmapFactory.decodeResource(getResources(),R.drawable.avatar_tree));
-        }
-        else {
-            imageView.setImageBitmap(bmAvatar);
-        }
+        imageView.setImageResource(LoginActivity.getUserLogged().getAvatar());
 
         //set coins
         TextView coinsView = v.findViewById(R.id.coins);
-        coinsView.setText(String.valueOf(AvatarActivity.getCoins()));
+        coinsView.setText(String.valueOf(LoginActivity.getUserLogged().getCoins()));
 
         return v;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        borderView.setImageResource(LoginActivity.getUserLogged().getMoldura());
+
+        imageView.setImageResource(LoginActivity.getUserLogged().getAvatar());
+    }
 
     public void changeAvatar(Bitmap s) {
         bmAvatar = s;
@@ -78,7 +73,6 @@ public class AvatarFragment extends Fragment {
         borderView = v.findViewById(R.id.moldura);
 
         borderView.setImageBitmap(s);
-
     }
 
     public void setLevel(int level) {
@@ -94,6 +88,6 @@ public class AvatarFragment extends Fragment {
 
     public void updateCoins() {
         TextView coinsView = v.findViewById(R.id.coins);
-        coinsView.setText(String.valueOf(AvatarActivity.getCoins()));
+        coinsView.setText(String.valueOf(LoginActivity.getUserLogged().getCoins()));
     }
 }

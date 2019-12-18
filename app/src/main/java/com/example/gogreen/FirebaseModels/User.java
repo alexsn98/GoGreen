@@ -1,6 +1,13 @@
 package com.example.gogreen.FirebaseModels;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+
+import com.example.gogreen.R;
+
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class User {
 
@@ -8,21 +15,23 @@ public class User {
     private String name;
     private int level;
     private int xp;
-    private String avatar;
-    private String moldura;
+    private int avatar;
+    private int moldura;
     private int missionsFinished;
-    private ArrayList<User> friends;
+    private List<Integer> friends;
+    private List<Integer> avatars;
     private int coins;
-    private ArrayList<String> cards;
+    private List<String> cards;
 
     public User(String id , String name){
         this.id = id;
         this.level = 1;
         this.xp = 0;
         this.name = name;
-        this.avatar = "avatar_tree";
-        this.moldura = "wood_border";
-        friends = new ArrayList<>();
+        this.avatar = R.drawable.avatar_tree;
+        this.moldura = R.drawable.wood_border;
+        this.avatars = new ArrayList<>();
+        this.friends = new ArrayList<>();
         this.coins = 0;
         this.cards = new ArrayList<>();
     }
@@ -38,7 +47,6 @@ public class User {
     public void setName(String name) {
         this.name = name;
     }
-
 
     public String getId() {
         return this.id;
@@ -64,38 +72,6 @@ public class User {
         this.xp = xp;
     }
 
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
-    public String getMoldura() {
-        return moldura;
-    }
-
-    public void setMoldura(String moldura) {
-        this.moldura = moldura;
-    }
-
-    public int getMissionsFinished() {
-        return missionsFinished;
-    }
-
-    public void setMissionsFinished(int missionsFinished) {
-        this.missionsFinished = missionsFinished;
-    }
-
-    public ArrayList<User> getFriends() {
-        return friends;
-    }
-
-    public void setFriends(ArrayList<User> friends) {
-        this.friends = friends;
-    }
-
     public int getCoins() {
         return coins;
     }
@@ -104,19 +80,23 @@ public class User {
         this.coins = coins;
     }
 
-    public ArrayList<String> getCards() {
-        return cards;
+    public int getAvatar() {
+        return avatar;
     }
 
-    public void setCards(ArrayList<String> cards) {
-        this.cards = cards;
+    public void setAvatar(int avatar) {
+        this.avatar = avatar;
     }
 
-    public void addFriend(User u){
-        friends.add(u);
+    public int getMoldura() {
+        return moldura;
     }
 
-    public void addCard(String card){
-        this.cards.add(card);
+    public List<Integer> getAvatars() {
+        return avatars;
+    }
+
+    public void addAvatar(int avatar) {
+        this.avatars.add(avatar);
     }
 }
