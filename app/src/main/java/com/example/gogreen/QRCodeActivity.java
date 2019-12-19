@@ -2,6 +2,7 @@ package com.example.gogreen;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.annotation.TargetApi;
@@ -76,136 +77,136 @@ public class QRCodeActivity extends AppCompatActivity {
         BarcodeDetector bd = new BarcodeDetector.Builder(this)
                 .setBarcodeFormats(Barcode.QR_CODE).build();
 
-        cs = new CameraSource.Builder(this, bd)
-                .setRequestedPreviewSize(640, 480).setAutoFocusEnabled(true).build();
+            cs = new CameraSource.Builder(this, bd)
+                    .setRequestedPreviewSize(640, 480).setAutoFocusEnabled(true).build();
 
-        read = false;
-        sv.getHolder().addCallback(new SurfaceHolder.Callback() {
-            @TargetApi(Build.VERSION_CODES.M)
-            @Override
-            public void surfaceCreated(SurfaceHolder holder) {
-                if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                    return;
+            read = false;
+            sv.getHolder().addCallback(new SurfaceHolder.Callback() {
+                @TargetApi(Build.VERSION_CODES.M)
+                @Override
+                public void surfaceCreated(SurfaceHolder holder) {
+                    if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                        return;
+                    }
+                    try {
+                        cs.start(holder);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
                 }
-                try {
-                    cs.start(holder);
-                } catch (IOException e) {
-                    e.printStackTrace();
+
+                @Override
+                public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
                 }
 
-            }
+                @Override
+                public void surfaceDestroyed(SurfaceHolder holder) {
+                    cs.stop();
+                }
+            });
 
-            @Override
-            public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-            }
+            bd.setProcessor(new Detector.Processor<Barcode>() {
+                String s;
 
-            @Override
-            public void surfaceDestroyed(SurfaceHolder holder) {
-                cs.stop();
-            }
-        });
+                @Override
+                public void release() {
 
-        bd.setProcessor(new Detector.Processor<Barcode>() {
-            String s;
+                    changeScreen(s);
+                }
 
-            @Override
-            public void release() {
+                @Override
+                public void receiveDetections(Detector.Detections<Barcode> detections) {
 
-                changeScreen(s);
-            }
+                    final SparseArray<Barcode> qrCodes = detections.getDetectedItems();
 
-            @Override
-            public void receiveDetections(Detector.Detections<Barcode> detections) {
+                    if (qrCodes.size() == 1 && !read) {
+                        read = true;
+                        final String input = qrCodes.valueAt(0).displayValue;
 
-                final SparseArray<Barcode> qrCodes = detections.getDetectedItems();
+                        final Vibrator vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
 
-                if (qrCodes.size() == 1 && !read) {
-                    read = true;
-                    final String input = qrCodes.valueAt(0).displayValue;
-
-                    final Vibrator vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
-
-                    vibrator.vibrate(pattern, 0);
+                        vibrator.vibrate(pattern, 0);
 
 
-                    Query query = mFirebaseDatabaseReference.child("QRCODES").orderByChild("id").equalTo(Integer.valueOf(input));
+                        Query query = mFirebaseDatabaseReference.child("QRCODES").orderByChild("id").equalTo(Integer.valueOf(input));
 
-                    query.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        query.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                            for(DataSnapshot ds : dataSnapshot.getChildren()){
-                                ds.getKey();
-                                QrCode q = ds.getValue(QrCode.class);
-                                if(q.getId() == Integer.valueOf(input)){
-                                    int j = 0;
-                                    s = "Ganhaste " + q.getXp() + " pontos de experiência e " + q.getCoins() + " moedas ";
-                                    if (q.getHasCard()){
+                                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                                    ds.getKey();
+                                    QrCode q = ds.getValue(QrCode.class);
+                                    if (q.getId() == Integer.valueOf(input)) {
+                                        int j = 0;
+                                        s = "Ganhaste " + q.getXp() + " pontos de experiência e " + q.getCoins() + " moedas ";
+                                        if (q.getHasCard()) {
 
-                                        List<Integer> intList = Arrays.asList(prob);
-                                        Collections.shuffle(intList);
-                                        intList.toArray(prob);
+                                            List<Integer> intList = Arrays.asList(prob);
+                                            Collections.shuffle(intList);
+                                            intList.toArray(prob);
+                                            byte[] b = {4,5,1,2,3,9,7,6,5,1};
+                                            SecureRandom sr = new SecureRandom(b);
 
-                                        SecureRandom sr = new SecureRandom();
+                                            int i = sr.nextInt(100);
 
-                                        int i = sr.nextInt(100);
-
-                                        j = prob[i];
+                                            j = prob[i];
 
 
-                                        s = s.concat(" e uma carta !" );
+                                            s = s.concat(" e uma carta !");
+                                        }
+
+                                        int prev_xp = LoginActivity.getUserLogged().getXp();
+                                        int coins = LoginActivity.getUserLogged().getCoins();
+
+                                        mFirebaseDatabaseReference.child("USERS").child(LoginActivity.getUserLogged().getId()).child("xp").setValue(prev_xp + q.getXp());
+                                        LoginActivity.getUserLogged().setXp(prev_xp + q.getXp());
+
+                                        mFirebaseDatabaseReference.child("USERS").child(LoginActivity.getUserLogged().getId()).child("coins").setValue(coins + q.getCoins());
+                                        LoginActivity.getUserLogged().setCoins(coins + q.getCoins());
+
+                                        if (j != 0) {
+
+                                            LoginActivity.getUserLogged().addCardToGive(j);
+
+                                            mFirebaseDatabaseReference.child("USERS").child(LoginActivity.getUserLogged().getId())
+                                                    .child("CARDSTOGIVE").setValue(LoginActivity.getUserLogged().getCardsToGive());
+                                        }
+
+
+                                        vibrator.cancel();
+
+                                        Intent intent = new Intent(QRCodeActivity.this, AvatarActivity.class);
+                                        intent.putExtra("string_qr", s);
+                                        startActivity(intent);
+                                        finish();
+
                                     }
 
-                                    int prev_xp = LoginActivity.getUserLogged().getXp();
-                                    int coins = LoginActivity.getUserLogged().getCoins();
-
-                                    mFirebaseDatabaseReference.child("USERS").child(LoginActivity.getUserLogged().getId()).child("xp").setValue(prev_xp + q.getXp());
-                                    LoginActivity.getUserLogged().setXp(prev_xp + q.getXp());
-
-                                    mFirebaseDatabaseReference.child("USERS").child(LoginActivity.getUserLogged().getId()).child("coins").setValue(coins + q.getCoins());
-                                    LoginActivity.getUserLogged().setCoins(coins + q.getCoins());
-
-                                    if(j != 0){
-
-                                        LoginActivity.getUserLogged().addCardToGive(j);
-
-                                        mFirebaseDatabaseReference.child("USERS").child(LoginActivity.getUserLogged().getId())
-                                                .child("CARDSTOGIVE").setValue(LoginActivity.getUserLogged().getCardsToGive());
-                                    }
-
-
-                                    vibrator.cancel();
-
-                                    Intent intent = new Intent(QRCodeActivity.this, AvatarActivity.class);
-                                    intent.putExtra("string_qr", s);
-                                    startActivity(intent);
-                                    finish();
 
                                 }
 
-
                             }
 
-                        }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
+                            }
+                        });
 
 
+                        finish();
 
+                    }
 
-                    finish();
 
                 }
 
+            });
+        }
 
-            }
 
-        });
-    }
 
     public void changeScreen(String s) {
         Intent intent = new Intent(this, AvatarActivity.class);

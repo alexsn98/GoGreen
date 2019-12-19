@@ -1,11 +1,9 @@
 package com.example.gogreen;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-
+import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
+import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Pair;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -14,6 +12,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -28,12 +29,16 @@ public class EnciclopediaActivity extends AppCompatActivity {
 
     public static HashMap<Integer, Pair<Boolean,String>> cards = new HashMap<>();
     private DatabaseReference mFirebaseDatabaseReference;
-
+    private ColorMatrix matrix;
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_enciclopedia);
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
+
+        matrix = new ColorMatrix();
+        matrix.setSaturation(0);
         if(cards.isEmpty()){
             //Reciclar
             cards.put(R.id.fact1, new Pair<>(false, "Recicla todos os dias! Ajuda o planeta"));
@@ -57,7 +62,8 @@ public class EnciclopediaActivity extends AppCompatActivity {
             cards.put(R.id.fact17, new Pair<>(false, ""));
             cards.put(R.id.fact18, new Pair<>(false, ""));
         }
-
+        ColorMatrix m = new ColorMatrix();
+        m.setSaturation(1);
         for(Map.Entry<Integer, Pair<Boolean, String>> entry : cards.entrySet()) {
             Integer key = entry.getKey();
             Pair p  = entry.getValue();
@@ -65,12 +71,26 @@ public class EnciclopediaActivity extends AppCompatActivity {
             if(LoginActivity.getUserLogged().getCards() != null && LoginActivity.getUserLogged().getCards().contains(key) ){
                 Pair p1 = new Pair(true,p.second);
                 cards.put(key, p1);
+                if(findViewById(key).getBackground().getColorFilter() != null){
+
+                    ImageView iv = findViewById(key);
+                    iv.getBackground().setColorFilter(new ColorMatrixColorFilter(m));
+                    iv.setColorFilter(new ColorMatrixColorFilter(m));
+                }
+            }
+            else{
+                if(LoginActivity.getUserLogged().getCards() != null){
+                    ImageView iv = findViewById(key);
+                    iv.getBackground().setColorFilter(new ColorMatrixColorFilter(matrix));
+                    iv.setColorFilter(new ColorMatrixColorFilter(matrix));
+                }
             }
 
         }
 
         List<Integer> cardsGive = LoginActivity.getUserLogged().getCardsToGive();
-        SecureRandom sr = new SecureRandom();
+        byte[] b = {1,2,3,4,5,6,7};
+        SecureRandom sr = new SecureRandom(b);
         for(int i = 0 ; i < cardsGive.size(); i++){
 
             switch (cardsGive.get(i)){
@@ -110,6 +130,36 @@ public class EnciclopediaActivity extends AppCompatActivity {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ColorMatrix m = new ColorMatrix();
+        m.setSaturation(1);
+        for(Map.Entry<Integer, Pair<Boolean, String>> entry : cards.entrySet()) {
+            Integer key = entry.getKey();
+            Pair p  = entry.getValue();
+
+            if(LoginActivity.getUserLogged().getCards() != null && LoginActivity.getUserLogged().getCards().contains(key) ){
+                Pair p1 = new Pair(true,p.second);
+                cards.put(key, p1);
+                if(findViewById(key).getBackground().getColorFilter() != null){
+
+                    ImageView iv = findViewById(key);
+                    iv.getBackground().setColorFilter(new ColorMatrixColorFilter(m));
+                    iv.setColorFilter(new ColorMatrixColorFilter(m));
+                }
+            }
+            else{
+                if(LoginActivity.getUserLogged().getCards() != null){
+                    ImageView iv = findViewById(key);
+                    iv.getBackground().setColorFilter(new ColorMatrixColorFilter(matrix));
+                    iv.setColorFilter(new ColorMatrixColorFilter(matrix));
+                }
+            }
+
+        }
+    }
 
     public void onButtonShowPopupWindowClick(View view) {
         // inflate the layout of the popup window
