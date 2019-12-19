@@ -27,7 +27,7 @@ public class AvatarFragment extends Fragment {
     static Bitmap bmBorder;
     static int level;
 
-    
+
     public AvatarFragment() {
         // Required empty public constructor
     }
@@ -59,6 +59,9 @@ public class AvatarFragment extends Fragment {
         borderView.setImageResource(LoginActivity.getUserLogged().getMoldura());
 
         imageView.setImageResource(LoginActivity.getUserLogged().getAvatar());
+
+        TextView coinsView = v.findViewById(R.id.coins);
+        coinsView.setText(String.valueOf(LoginActivity.getUserLogged().getCoins()));
     }
 
     public void changeAvatar(Bitmap s) {
@@ -68,7 +71,7 @@ public class AvatarFragment extends Fragment {
         imageView.setImageBitmap(s);
     }
 
-    public void changeBorder(Bitmap s){
+    public void changeBorder(Bitmap s) {
         bmBorder = s;
         borderView = v.findViewById(R.id.moldura);
 
@@ -78,16 +81,11 @@ public class AvatarFragment extends Fragment {
     public void setLevel(int level) {
         this.level = level;
 
-        if(level >= 10){
-            changeBorder(BitmapFactory.decodeResource(getResources(),R.drawable.gold_border));
-        }
-        else if(level >= 5){
-            changeBorder(BitmapFactory.decodeResource(getResources(),R.drawable.silver_border));
+        if (level >= 10) {
+            changeBorder(BitmapFactory.decodeResource(getResources(), R.drawable.gold_border));
+        } else if (level >= 5) {
+            changeBorder(BitmapFactory.decodeResource(getResources(), R.drawable.silver_border));
         }
     }
 
-    public void updateCoins() {
-        TextView coinsView = v.findViewById(R.id.coins);
-        coinsView.setText(String.valueOf(LoginActivity.getUserLogged().getCoins()));
-    }
 }

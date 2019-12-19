@@ -38,6 +38,8 @@ public class AvatarActivity extends AppCompatActivity {
 
         if(xp[1] == 0) xp[1] = 1000;
 
+
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
@@ -119,7 +121,7 @@ public class AvatarActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        avatarFragment.updateCoins();
+
     }
 
     public void changeToEnciclopedia(View view) {

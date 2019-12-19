@@ -20,8 +20,10 @@ public class User {
     private int missionsFinished;
     private List<Integer> friends;
     private List<Integer> avatars;
+    private List<Integer> cards;
+    private List<Integer> cardsToGive;
     private int coins;
-    private List<String> cards;
+
 
     public User(String id , String name){
         this.id = id;
@@ -32,6 +34,7 @@ public class User {
         this.moldura = R.drawable.wood_border;
         this.avatars = new ArrayList<>();
         this.friends = new ArrayList<>();
+        this.cardsToGive = new ArrayList<>();
         this.coins = 0;
         this.cards = new ArrayList<>();
     }
@@ -89,7 +92,7 @@ public class User {
     }
 
     public int getMoldura() {
-        return moldura;
+        return this.moldura;
     }
 
     public List<Integer> getAvatars() {
@@ -99,8 +102,34 @@ public class User {
     public void addAvatar(int avatar) {
         this.avatars.add(avatar);
     }
+    public void setAvatars(List<Integer> fds) {
+        this.avatars = fds;
+    }
+    public void setMoldura(int chosenBorderId) {
+        this.moldura = chosenBorderId;
+    }
 
-    public void setBorder(int chosenBorderId) {
+    public List<Integer> getCards() {
+        return cards;
+    }
 
+    public void setCards(List<Integer> cards) {
+        this.cards = cards;
+    }
+
+    public List<Integer> getCardsToGive() {
+        return cardsToGive;
+    }
+
+    public void setCardsToGive(List<Integer> cardsToGive) {
+        this.cardsToGive = cardsToGive;
+    }
+
+    public void addCardToGive(int i){
+        this.cardsToGive.add(i);
+    }
+
+    public void addCard(int i){
+        this.cards.add(i);
     }
 }

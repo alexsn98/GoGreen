@@ -31,7 +31,11 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
+import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class QRCodeActivity extends AppCompatActivity {
 
@@ -44,11 +48,25 @@ public class QRCodeActivity extends AppCompatActivity {
     long[] pattern = {0, 200, 1500};
     static ArrayList<Integer> qrCodesRead = new ArrayList<>();
     static boolean read;
-
+    private static Integer[] prob = new Integer[100];
     private DatabaseReference mFirebaseDatabaseReference;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+        for (int i = 0; i < 100; i++){
+            if(i < 70){
+                prob[i] = 1;
+            }
+            if(70 <= i && i < 90){
+                prob[i] = 2;
+            }
+            else{
+                prob[i] = 3;
+            }
+        }
         setContentView(R.layout.activity_qrcode);
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
         SurfaceView sv = findViewById(R.id.qrcode);
@@ -117,12 +135,26 @@ public class QRCodeActivity extends AppCompatActivity {
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                             for(DataSnapshot ds : dataSnapshot.getChildren()){
-
+                                ds.getKey();
                                 QrCode q = ds.getValue(QrCode.class);
                                 if(q.getId() == Integer.valueOf(input)){
+                                    int j = 0;
+                                    s = "Ganhaste " + q.getXp() + " pontos de experiência e " + q.getCoins() + " moedas ";
+                                    if (q.getHasCard()){
 
-                                    s = "Ganhas-te " + q.getXp() + " pontos de experiência e " + q.getCoins() + " moedas ";
-                                    if (q.hasCard()) s.concat(" e a carta " );
+                                        List<Integer> intList = Arrays.asList(prob);
+                                        Collections.shuffle(intList);
+                                        intList.toArray(prob);
+
+                                        SecureRandom sr = new SecureRandom();
+
+                                        int i = sr.nextInt(100);
+
+                                        j = prob[i];
+
+
+                                        s = s.concat(" e uma carta !" );
+                                    }
 
                                     int prev_xp = LoginActivity.getUserLogged().getXp();
                                     int coins = LoginActivity.getUserLogged().getCoins();
@@ -132,6 +164,15 @@ public class QRCodeActivity extends AppCompatActivity {
 
                                     mFirebaseDatabaseReference.child("USERS").child(LoginActivity.getUserLogged().getId()).child("coins").setValue(coins + q.getCoins());
                                     LoginActivity.getUserLogged().setCoins(coins + q.getCoins());
+
+                                    if(j != 0){
+
+                                        LoginActivity.getUserLogged().addCardToGive(j);
+
+                                        mFirebaseDatabaseReference.child("USERS").child(LoginActivity.getUserLogged().getId())
+                                                .child("CARDSTOGIVE").setValue(LoginActivity.getUserLogged().getCardsToGive());
+                                    }
+
 
                                     vibrator.cancel();
 

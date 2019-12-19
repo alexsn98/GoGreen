@@ -35,7 +35,7 @@ public class QrCode {
         this.xp = xp;
     }
 
-    public boolean hasCard() {
+    public boolean getHasCard() {
         return hasCard;
     }
 

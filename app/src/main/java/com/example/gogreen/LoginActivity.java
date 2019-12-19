@@ -32,6 +32,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
@@ -86,7 +87,12 @@ public class LoginActivity extends AppCompatActivity {
 
         if (gs != null) {
             setUsername(gs.getDisplayName());
-            findUser(gs);
+            findUser(gs, new userCallBack() {
+                @Override
+                public void getCallback(User u) {
+                    user = u;
+                }
+            });
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
             finish();
@@ -124,7 +130,12 @@ public class LoginActivity extends AppCompatActivity {
                 final GoogleSignInAccount account = result.getSignInAccount();
                 setUsername(account.getDisplayName().split(" ")[0]);
 
-                findUser(account);
+                findUser(account, new userCallBack() {
+                    @Override
+                    public void getCallback(User u) {
+                        user = u;
+                    }
+                });
 
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
@@ -136,7 +147,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
     }
-    private void findUser(final GoogleSignInAccount account){
+    private void findUser(final GoogleSignInAccount account, final userCallBack userCallBack){
         Query query = mFirebaseDatabaseReference.child("USERS").orderByChild("id").equalTo(account.getId());
 
         final boolean[] b = {false};
@@ -147,8 +158,24 @@ public class LoginActivity extends AppCompatActivity {
                     for(DataSnapshot ds : dataSnapshot.getChildren()){
                         User u = ds.getValue(User.class);
                         if(u.getId().compareTo(account.getId()) == 0){
+
+                            GenericTypeIndicator<List<Integer>> t = new GenericTypeIndicator<List<Integer>>() {};
+                            List<Integer> avatars =   ds.child("AVATARS").getValue(t);
+
+                            GenericTypeIndicator<List<Integer>> t1 = new GenericTypeIndicator<List<Integer>>() {};
+                            List<Integer> cards =   ds.child("CARDS").getValue(t1);
+
+                            GenericTypeIndicator<List<Integer>> t2 = new GenericTypeIndicator<List<Integer>>() {};
+                            List<Integer> cardsToGive =   ds.child("CARDSTOGIVE").getValue(t2);
+
+
+                            u.setAvatars(avatars);
+                            u.setCards(cards);
+                            u.setCardsToGive(cardsToGive);
+
                             user = u;
                             b[0] = true;
+
                         }
                 }
 
@@ -159,6 +186,15 @@ public class LoginActivity extends AppCompatActivity {
 
                     u.addAvatar(R.id.character0);
                     mFirebaseDatabaseReference.child("USERS").child(account.getId()).child("AVATARS").setValue(u.getAvatars());
+
+                    u.addCard(0);
+                    mFirebaseDatabaseReference.child("USERS").child(account.getId()).child("CARDS").setValue(u.getCards());
+
+                    u.addCardToGive(0);
+                    mFirebaseDatabaseReference.child("USERS").child(account.getId()).child("CARDSTOGIVE").setValue(u.getCardsToGive());
+
+                    user = u;
+
                 }
             }
 
@@ -167,10 +203,14 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
-
+        userCallBack.getCallback(user);
     }
 
     public static User getUserLogged(){
         return user;
+    }
+
+    private interface userCallBack{
+        void getCallback(User u);
     }
 }

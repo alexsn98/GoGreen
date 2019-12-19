@@ -3,8 +3,6 @@ package com.example.gogreen;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
@@ -12,7 +10,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.Pair;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -25,7 +22,6 @@ import android.widget.Toast;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -99,16 +95,26 @@ public class CostumizeAvatarActivity extends AppCompatActivity  {
             goldBorderView.setColorFilter(new ColorMatrixColorFilter(matrix));
         }
 
-        //lock characters
-        /*for(Map.Entry<Integer, Boolean> entry : characters.entrySet()) {
-            Integer key = entry.getKey();
-            Boolean value = entry.getValue();
 
-            if (!value) {
+        //lock characters
+        for(Map.Entry<Integer, Integer> entry : characters.entrySet()) {
+            Integer key = entry.getKey();
+
                 ImageView currentView = findViewById(key);
                 currentView.setColorFilter(new ColorMatrixColorFilter(matrix));
-            }
-        }*/
+
+        }
+
+        ColorMatrix popupMatrix = new ColorMatrix();
+        popupMatrix.setSaturation(1);
+
+        for(Integer i : LoginActivity.getUserLogged().getAvatars()){
+
+            ImageView currentView = findViewById(i);
+            currentView.setColorFilter(null);
+
+        }
+
 
     }
 
@@ -121,6 +127,23 @@ public class CostumizeAvatarActivity extends AppCompatActivity  {
 
         //if(chosenAvatar != null) avatarView.setBackground(chosenAvatar);
         //if(chosenBorder != null) borderView.setBackground(chosenBorder);
+        for(Map.Entry<Integer, Integer> entry : characters.entrySet()) {
+            Integer key = entry.getKey();
+
+            ImageView currentView = findViewById(key);
+            currentView.setColorFilter(new ColorMatrixColorFilter(matrix));
+
+        }
+
+        ColorMatrix popupMatrix = new ColorMatrix();
+        popupMatrix.setSaturation(1);
+
+        for(Integer i : LoginActivity.getUserLogged().getAvatars()){
+
+            ImageView currentView = findViewById(i);
+            currentView.setColorFilter(null);
+
+        }
 
         //set coins
         TextView coinsView = findViewById(R.id.costumizeCoins);
@@ -135,17 +158,16 @@ public class CostumizeAvatarActivity extends AppCompatActivity  {
         chosenBorder = currentImage.getDrawable();
         int chosenBorderId = borders.get(view.getId());
 
-        LoginActivity.getUserLogged().setBorder(chosenBorderId);
-        mFirebaseDatabaseReference.child("USERS").child(LoginActivity.getUserLogged().getId()).child("moldura").setValue(chosenBorderId);
 
-        currentImage.setImageBitmap(((BitmapDrawable) getResources().getDrawable(chosenBorderId)).getBitmap());
 
-//        if(image.getColorFilter() == null){
-//            borderView = findViewById(R.id.borderView);
-//            borderView.setImageBitmap(null);
-//            borderView.setBackground(image.getDrawable());
-//            chosenBorder = image.getDrawable();
-//        }
+
+
+        if(image.getColorFilter() == null){
+            currentImage.setImageBitmap(((BitmapDrawable) getResources().getDrawable(chosenBorderId)).getBitmap());
+            chosenBorder = image.getDrawable();
+            LoginActivity.getUserLogged().setMoldura(chosenBorderId);
+            mFirebaseDatabaseReference.child("USERS").child(LoginActivity.getUserLogged().getId()).child("moldura").setValue(chosenBorderId);
+        }
     }
 
     public void changeAvatar(View view){
@@ -155,18 +177,19 @@ public class CostumizeAvatarActivity extends AppCompatActivity  {
         chosenAvatar = currentImage.getDrawable();
         int chosenAvatarId = characters.get(view.getId());
 
-        LoginActivity.getUserLogged().setAvatar(chosenAvatarId);
-        mFirebaseDatabaseReference.child("USERS").child(LoginActivity.getUserLogged().getId()).child("avatar").setValue(chosenAvatarId);
 
-        currentImage.setImageBitmap(((BitmapDrawable) getResources().getDrawable(chosenAvatarId)).getBitmap());
-//        if(characters.get(view.getId())) {
-//            avatarView = findViewById(R.id.avatar);
-//            avatarView.setImageBitmap(null);
-//            avatarView.setBackground(image.getDrawable());
-//            chosenAvatar = image.getDrawable();
-//        }
 
-//        buyCharacter(view, image.getDrawable());
+
+
+        if(image.getColorFilter() == null) {
+            currentImage.setImageBitmap(((BitmapDrawable) getResources().getDrawable(chosenAvatarId)).getBitmap());
+            chosenAvatar = image.getDrawable();
+            LoginActivity.getUserLogged().setAvatar(chosenAvatarId);
+            mFirebaseDatabaseReference.child("USERS").child(LoginActivity.getUserLogged().getId()).child("avatar").setValue(chosenAvatarId);
+       }
+        else {
+            buyCharacter(view, image.getDrawable());
+        }
     }
 
     public void buyCharacter(final View view, Drawable avatarImage) {
@@ -209,7 +232,18 @@ public class CostumizeAvatarActivity extends AppCompatActivity  {
                     TextView costumizeCoinsView = findViewById(R.id.costumizeCoins);
                     costumizeCoinsView.setText(String.valueOf(LoginActivity.getUserLogged().getCoins()));
 
+                    LoginActivity.getUserLogged().addAvatar(view.getId());
+
+
+
+                    mFirebaseDatabaseReference.child("USERS").child(LoginActivity.getUserLogged().getId())
+                            .child("AVATARS").setValue(LoginActivity.getUserLogged().getAvatars());
+                    mFirebaseDatabaseReference.child("USERS").child(LoginActivity.getUserLogged().getId())
+                            .child("coins").setValue(LoginActivity.getUserLogged().getCoins());
+
                     popupWindow.dismiss();
+                    finish();
+                    startActivity(getIntent());
                 }
 
                 else {

@@ -39,7 +39,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageButton
-                    android:id="@+id/imageButton17"
+                    android:id="@+id/fact3"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
@@ -47,63 +47,63 @@
                     android:onClick="onButtonShowPopupWindowClick"
                     android:scaleType="fitCenter"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/imageButton16"
+                    app:layout_constraintStart_toEndOf="@+id/fact2"
                     app:layout_constraintTop_toBottomOf="@+id/textView2"
                     app:srcCompat="@drawable/waste" />
 
                 <ImageButton
-                    android:id="@+id/imageButton16"
+                    android:id="@+id/fact2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:background="@drawable/card_brown"
                     android:onClick="onButtonShowPopupWindowClick"
                     android:scaleType="fitCenter"
-                    app:layout_constraintEnd_toStartOf="@+id/imageButton17"
+                    app:layout_constraintEnd_toStartOf="@+id/fact3"
                     app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/imageButton15"
+                    app:layout_constraintStart_toEndOf="@+id/fact1"
                     app:layout_constraintTop_toBottomOf="@+id/textView2"
                     app:srcCompat="@drawable/waste" />
 
                 <ImageButton
-                    android:id="@+id/imageButton15"
+                    android:id="@+id/fact1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:background="@drawable/card_brown"
                     android:onClick="onButtonShowPopupWindowClick"
                     android:scaleType="fitCenter"
-                    app:layout_constraintEnd_toStartOf="@+id/imageButton16"
+                    app:layout_constraintEnd_toStartOf="@+id/fact2"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView2"
                     app:srcCompat="@drawable/waste" />
 
                 <ImageButton
-                    android:id="@+id/fact"
+                    android:id="@+id/fact7"
                     android:layout_width="0dp"
                     android:layout_height="150dp"
                     android:layout_marginTop="24dp"
                     android:background="@drawable/card_brown"
                     android:onClick="onButtonShowPopupWindowClick"
                     android:scaleType="fitCenter"
-                    app:layout_constraintEnd_toStartOf="@+id/fact1"
+                    app:layout_constraintEnd_toStartOf="@+id/fact8"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView12"
                     app:srcCompat="@drawable/reduce" />
 
                 <ImageButton
-                    android:id="@+id/imageButton7"
+                    android:id="@+id/fact5"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:background="@drawable/card_blue"
                     android:onClick="onButtonShowPopupWindowClick"
                     android:scaleType="fitCenter"
-                    app:layout_constraintEnd_toStartOf="@+id/imageButton8"
+                    app:layout_constraintEnd_toStartOf="@+id/fact6"
                     app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/imageButton6"
-                    app:layout_constraintTop_toBottomOf="@+id/imageButton16"
+                    app:layout_constraintStart_toEndOf="@+id/fact4"
+                    app:layout_constraintTop_toBottomOf="@+id/fact2"
                     app:srcCompat="@drawable/waste" />
 
                 <TextView
@@ -116,10 +116,10 @@
                     android:textSize="36sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imageButton6" />
+                    app:layout_constraintTop_toBottomOf="@+id/fact4" />
 
                 <ImageButton
-                    android:id="@+id/imageButton8"
+                    android:id="@+id/fact6"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
@@ -128,26 +128,26 @@
                     android:scaleType="fitCenter"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/imageButton7"
-                    app:layout_constraintTop_toBottomOf="@+id/imageButton17"
+                    app:layout_constraintStart_toEndOf="@+id/fact5"
+                    app:layout_constraintTop_toBottomOf="@+id/fact3"
                     app:srcCompat="@drawable/waste" />
 
                 <ImageButton
-                    android:id="@+id/imageButton6"
+                    android:id="@+id/fact4"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:background="@drawable/card_blue"
                     android:onClick="onButtonShowPopupWindowClick"
                     android:scaleType="fitCenter"
-                    app:layout_constraintEnd_toStartOf="@+id/imageButton7"
+                    app:layout_constraintEnd_toStartOf="@+id/fact5"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imageButton15"
+                    app:layout_constraintTop_toBottomOf="@+id/fact1"
                     app:srcCompat="@drawable/waste" />
 
                 <ImageButton
-                    android:id="@+id/fact2"
+                    android:id="@+id/fact9"
                     android:layout_width="0dp"
                     android:layout_height="150dp"
                     android:layout_marginTop="24dp"
@@ -156,40 +156,40 @@
                     android:scaleType="fitCenter"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/fact1"
+                    app:layout_constraintStart_toEndOf="@+id/fact8"
                     app:layout_constraintTop_toBottomOf="@+id/textView12"
                     app:srcCompat="@drawable/reduce" />
 
                 <ImageButton
-                    android:id="@+id/fact1"
+                    android:id="@+id/fact8"
                     android:layout_width="0dp"
                     android:layout_height="150dp"
                     android:layout_marginTop="24dp"
                     android:background="@drawable/card_brown"
                     android:onClick="onButtonShowPopupWindowClick"
                     android:scaleType="fitCenter"
-                    app:layout_constraintEnd_toStartOf="@+id/fact2"
+                    app:layout_constraintEnd_toStartOf="@+id/fact9"
                     app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/fact"
+                    app:layout_constraintStart_toEndOf="@+id/fact7"
                     app:layout_constraintTop_toBottomOf="@+id/textView12"
                     app:srcCompat="@drawable/reduce" />
 
                 <ImageButton
-                    android:id="@+id/imageButton19"
+                    android:id="@+id/fact11"
                     android:layout_width="0dp"
                     android:layout_height="150dp"
                     android:layout_marginTop="24dp"
                     android:background="@drawable/card_blue"
                     android:onClick="onButtonShowPopupWindowClick"
                     android:scaleType="fitCenter"
-                    app:layout_constraintEnd_toStartOf="@+id/imageButton"
+                    app:layout_constraintEnd_toStartOf="@+id/fact12"
                     app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/imageButton20"
-                    app:layout_constraintTop_toBottomOf="@+id/fact1"
+                    app:layout_constraintStart_toEndOf="@+id/fact10"
+                    app:layout_constraintTop_toBottomOf="@+id/fact8"
                     app:srcCompat="@drawable/reduce" />
 
                 <ImageButton
-                    android:id="@+id/imageButton"
+                    android:id="@+id/fact12"
                     android:layout_width="0dp"
                     android:layout_height="150dp"
                     android:layout_marginTop="24dp"
@@ -198,8 +198,8 @@
                     android:scaleType="fitCenter"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/imageButton19"
-                    app:layout_constraintTop_toBottomOf="@+id/fact2"
+                    app:layout_constraintStart_toEndOf="@+id/fact11"
+                    app:layout_constraintTop_toBottomOf="@+id/fact9"
                     app:srcCompat="@drawable/reduce" />
 
                 <TextView
@@ -212,38 +212,38 @@
                     android:textSize="36sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imageButton20" />
+                    app:layout_constraintTop_toBottomOf="@+id/fact10" />
 
                 <ImageButton
-                    android:id="@+id/imageButton20"
+                    android:id="@+id/fact10"
                     android:layout_width="0dp"
                     android:layout_height="150dp"
                     android:layout_marginTop="24dp"
                     android:background="@drawable/card_blue"
                     android:onClick="onButtonShowPopupWindowClick"
                     android:scaleType="fitCenter"
-                    app:layout_constraintEnd_toStartOf="@+id/imageButton19"
+                    app:layout_constraintEnd_toStartOf="@+id/fact11"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/fact"
+                    app:layout_constraintTop_toBottomOf="@+id/fact7"
                     app:srcCompat="@drawable/reduce" />
 
                 <ImageButton
-                    android:id="@+id/fact3"
+                    android:id="@+id/fact13"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:background="@drawable/card_brown"
                     android:onClick="onButtonShowPopupWindowClick"
                     android:scaleType="fitCenter"
-                    app:layout_constraintEnd_toStartOf="@+id/fact5"
+                    app:layout_constraintEnd_toStartOf="@+id/fact14"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView14"
                     app:srcCompat="@drawable/plant" />
 
                 <ImageButton
-                    android:id="@+id/fact6"
+                    android:id="@+id/fact15"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
@@ -252,40 +252,40 @@
                     android:scaleType="fitCenter"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/fact5"
+                    app:layout_constraintStart_toEndOf="@+id/fact14"
                     app:layout_constraintTop_toBottomOf="@+id/textView14"
                     app:srcCompat="@drawable/plant" />
 
                 <ImageButton
-                    android:id="@+id/fact7"
+                    android:id="@+id/fact16"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:background="@drawable/card_blue"
                     android:onClick="onButtonShowPopupWindowClick"
                     android:scaleType="fitCenter"
-                    app:layout_constraintEnd_toStartOf="@+id/fact9"
+                    app:layout_constraintEnd_toStartOf="@+id/fact17"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/fact3"
+                    app:layout_constraintTop_toBottomOf="@+id/fact13"
                     app:srcCompat="@drawable/plant" />
 
                 <ImageButton
-                    android:id="@+id/fact9"
+                    android:id="@+id/fact17"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:background="@drawable/card_blue"
                     android:onClick="onButtonShowPopupWindowClick"
                     android:scaleType="fitCenter"
-                    app:layout_constraintEnd_toStartOf="@+id/fact10"
+                    app:layout_constraintEnd_toStartOf="@+id/fact18"
                     app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/fact7"
-                    app:layout_constraintTop_toBottomOf="@+id/fact5"
+                    app:layout_constraintStart_toEndOf="@+id/fact16"
+                    app:layout_constraintTop_toBottomOf="@+id/fact14"
                     app:srcCompat="@drawable/plant" />
 
                 <ImageButton
-                    android:id="@+id/fact10"
+                    android:id="@+id/fact18"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
@@ -294,21 +294,21 @@
                     android:scaleType="fitCenter"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/fact9"
-                    app:layout_constraintTop_toBottomOf="@+id/fact6"
+                    app:layout_constraintStart_toEndOf="@+id/fact17"
+                    app:layout_constraintTop_toBottomOf="@+id/fact15"
                     app:srcCompat="@drawable/plant" />
 
                 <ImageButton
-                    android:id="@+id/fact5"
+                    android:id="@+id/fact14"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:background="@drawable/card_brown"
                     android:onClick="onButtonShowPopupWindowClick"
                     android:scaleType="fitCenter"
-                    app:layout_constraintEnd_toStartOf="@+id/fact6"
+                    app:layout_constraintEnd_toStartOf="@+id/fact15"
                     app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/fact3"
+                    app:layout_constraintStart_toEndOf="@+id/fact13"
                     app:layout_constraintTop_toBottomOf="@+id/textView14"
                     app:srcCompat="@drawable/plant" />
 
