@@ -178,9 +178,6 @@ public class CostumizeAvatarActivity extends AppCompatActivity  {
         int chosenAvatarId = characters.get(view.getId());
 
 
-
-
-
         if(image.getColorFilter() == null) {
             currentImage.setImageBitmap(((BitmapDrawable) getResources().getDrawable(chosenAvatarId)).getBitmap());
             chosenAvatar = image.getDrawable();

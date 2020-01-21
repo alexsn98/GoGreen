@@ -69,7 +69,6 @@ public class LoginActivity extends AppCompatActivity {
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
 
         findViewById(R.id.sign_in_button).setOnClickListener(new View.OnClickListener() {
@@ -154,7 +153,6 @@ public class LoginActivity extends AppCompatActivity {
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
                     for(DataSnapshot ds : dataSnapshot.getChildren()){
                         User u = ds.getValue(User.class);
                         if(u.getId().compareTo(account.getId()) == 0){
@@ -163,11 +161,10 @@ public class LoginActivity extends AppCompatActivity {
                             List<Integer> avatars =   ds.child("AVATARS").getValue(t);
 
                             GenericTypeIndicator<List<Integer>> t1 = new GenericTypeIndicator<List<Integer>>() {};
-                            List<Integer> cards =   ds.child("CARDS").getValue(t1);
+                            List<Integer> cards =  ds.child("CARDS").getValue(t1);
 
                             GenericTypeIndicator<List<Integer>> t2 = new GenericTypeIndicator<List<Integer>>() {};
-                            List<Integer> cardsToGive =   ds.child("CARDSTOGIVE").getValue(t2);
-
+                            List<Integer> cardsToGive =  ds.child("CARDSTOGIVE").getValue(t2);
 
                             u.setAvatars(avatars);
                             u.setCards(cards);
@@ -175,14 +172,13 @@ public class LoginActivity extends AppCompatActivity {
 
                             user = u;
                             b[0] = true;
-
+                            userCallBack.getCallback(user);
                         }
                 }
 
                 if(!b[0]) {
                     User u = new User(account.getId(), getUsername());
                     mFirebaseDatabaseReference.child("USERS").child(account.getId()).setValue(u);
-
 
                     u.addAvatar(R.id.character0);
                     mFirebaseDatabaseReference.child("USERS").child(account.getId()).child("AVATARS").setValue(u.getAvatars());
@@ -194,8 +190,9 @@ public class LoginActivity extends AppCompatActivity {
                     mFirebaseDatabaseReference.child("USERS").child(account.getId()).child("CARDSTOGIVE").setValue(u.getCardsToGive());
 
                     user = u;
-
+                    userCallBack.getCallback(user);
                 }
+
             }
 
             @Override
@@ -203,7 +200,7 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
-        userCallBack.getCallback(user);
+
     }
 
     public static User getUserLogged(){

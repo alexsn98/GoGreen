@@ -41,26 +41,28 @@ public class EnciclopediaActivity extends AppCompatActivity {
         matrix.setSaturation(0);
         if(cards.isEmpty()){
             //Reciclar
-            cards.put(R.id.fact1, new Pair<>(false, "Recicla todos os dias! Ajuda o planeta"));
+            cards.put(R.id.fact1, new Pair<>(false, "Cartão/Papel no azulão, Plástico/Metal no amarelão e o vidro no verdão! :)"));
             cards.put(R.id.fact2, new Pair<>(false, "Sabias que lâmpadas não podem ser colocadas no vidrão?"));
             cards.put(R.id.fact3, new Pair<>(false, "Não coloques medicamentos fora do prazo no lixo, vai entregar a farmácia!"));
-            cards.put(R.id.fact4, new Pair<>(false, ""));
-            cards.put(R.id.fact5, new Pair<>(false, ""));
-            cards.put(R.id.fact6, new Pair<>(false, ""));
+            cards.put(R.id.fact4, new Pair<>(false, "Reciclar plástico consome metade da energia que é necessário para o queimar!"));
+            cards.put(R.id.fact5, new Pair<>(false, "Sabias que existe um ecoponto para reciclar pilhas? Procura pelo vermelhão!"));
+            cards.put(R.id.fact6, new Pair<>(false, "Reciclar uma lata consegue poupar energia suficiente " +
+                                                    "para teres a tua televisão ligada durante 3 horas!"));
             //Reduzir
             cards.put(R.id.fact7, new Pair<>(false, "Sabias que uma beata demora 10 a 12 anos a decompor-se? Não as atires para o chão! "));
-            cards.put(R.id.fact8, new Pair<>(false, ""));
-            cards.put(R.id.fact9, new Pair<>(false, ""));
-            cards.put(R.id.fact10, new Pair<>(false, ""));
+            cards.put(R.id.fact8, new Pair<>(false, "Não te esqueças de levar o teu saco reutilizável para as compras!"));
+            cards.put(R.id.fact9, new Pair<>(false, "Usa transportes públicos em vez do teu carro! O ambiente agradece!"));
+            cards.put(R.id.fact10, new Pair<>(false, "Usa lâmpadas amigas do ambiente e verás uma redução na fatura também!"));
             cards.put(R.id.fact11, new Pair<>(false, "Não coloques azeite ou óleo no ralo! Usa um oleão"));
-            cards.put(R.id.fact12, new Pair<>(false, "Dezenas de milhares de mamíferos marinhos morrem por ano ao comer ou se emaranhar em detritos de plástico."));
+            cards.put(R.id.fact12, new Pair<>(false, "Dezenas de milhares de mamíferos marinhos morrem por ano ao comer ou " +
+                    "se emaranhar em detritos de plástico."));
             //Reutilizar
-            cards.put(R.id.fact13, new Pair<>(false, "Um saco de plástico demora 20 a 1000 anos a decompor-se, reutiliza!"));
-            cards.put(R.id.fact14, new Pair<>(false, ""));
-            cards.put(R.id.fact15, new Pair<>(false, ""));
-            cards.put(R.id.fact16, new Pair<>(false, ""));
-            cards.put(R.id.fact17, new Pair<>(false, ""));
-            cards.put(R.id.fact18, new Pair<>(false, ""));
+            cards.put(R.id.fact13, new Pair<>(false, "T-shirts velhas dão para ótimos panos de limpeza, sabias?"));
+            cards.put(R.id.fact14, new Pair<>(false, "Lixo duns, tesouro doutros. Doa a roupa/objetos que já não usas!"));
+            cards.put(R.id.fact15, new Pair<>(false, "Utiliza pilhas recarregáveis!"));
+            cards.put(R.id.fact16, new Pair<>(false, "Compra utensílios usados quando possível."));
+            cards.put(R.id.fact17, new Pair<>(false, "Doa livros escolares! O que hoje não sabemos, amanhã saberemos! :)"));
+            cards.put(R.id.fact18, new Pair<>(false, "Garrafas de plástico dão otimos vasos para plantas!"));
         }
         ColorMatrix m = new ColorMatrix();
         m.setSaturation(1);

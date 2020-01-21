@@ -4,23 +4,36 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.example.gogreen.FirebaseModels.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 public class MissionsActivity extends AppCompatActivity {
     private static int missionD = 0;
@@ -29,12 +42,16 @@ public class MissionsActivity extends AppCompatActivity {
     private static ArrayList<Bitmap> missionsBitmaps = new ArrayList<>();
     private static ArrayList<String> missionsText = new ArrayList<>();
     private static String missionText;
-    private FirebaseStorage storage;
+    private static String userID;
+    private FirebaseStorage storage = FirebaseStorage.getInstance();
+    private DatabaseReference mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
+    private String imageName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_missions);
-        storage = FirebaseStorage.getInstance();
+        userID = LoginActivity.getUserLogged().getId();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
@@ -48,6 +65,8 @@ public class MissionsActivity extends AppCompatActivity {
         fragmentTransaction.add(R.id.missions_done_container,n_missions);
 
         fragmentTransaction.commit();
+
+
 
         FrameLayout frame = findViewById(R.id.daily_missions_container);
         frame.setOnClickListener(new View.OnClickListener() {
@@ -107,33 +126,63 @@ public class MissionsActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK) {
-            StorageReference storageRef = storage.getReference();
-            StorageReference mountainsRef = storageRef.child(LoginActivity.getUserLogged().getId());
+
+            imageName = "validGreen/" + UUID.randomUUID() + ".png";
+
+            StorageReference mountainsRef = storage.getReference(imageName);
             Bundle extras = data.getExtras();
+
             Bitmap imageBitmap = (Bitmap) extras.get("data");
 
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+
+            StorageMetadata metadata = new StorageMetadata.Builder()
+                    .setCustomMetadata("user", userID)
+                    .setCustomMetadata("missao", MissionsActivity.getMissionText()).build();
+
             byte[] dataByte = baos.toByteArray();
 
-            UploadTask uploadTask = mountainsRef.putBytes(dataByte);
+            UploadTask uploadTask = mountainsRef.putBytes(dataByte, metadata);
 
-            uploadTask.addOnFailureListener(new OnFailureListener() {
+            uploadTask.addOnCompleteListener(MissionsActivity.this, new OnCompleteListener<UploadTask.TaskSnapshot>() {
                 @Override
-                public void onFailure(@NonNull Exception exception) {
+                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                    int duration = Toast.LENGTH_LONG;
+                    Toast.makeText(getApplicationContext(), "Concluido!", duration).show();
 
-                }
-            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    missionsDone++;
+                    //inserir na lista de nomes de imagens
+                    Query query = mFirebaseDatabaseReference.child("GREEN").orderByChild("id");
 
+                    query.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            GenericTypeIndicator<List<String>> t = new GenericTypeIndicator<List<String>>() {};
 
+                            List<String> imageNamesList = dataSnapshot.getValue(t);
+
+                            if (dataSnapshot.getValue() == null) {
+                                List<String> newImageNamesList = new ArrayList<>();
+                                newImageNamesList.add(imageName.split("/")[1]);
+                                mFirebaseDatabaseReference.child("GREEN").setValue(newImageNamesList);
+                            }
+
+                            else {
+                                imageNamesList.add(imageName.split("/")[1]);
+                                Log.d("pau", imageNamesList.get(1));
+                                mFirebaseDatabaseReference.child("GREEN").setValue(imageNamesList);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                        }
+                    });
                 }
             });
-            /*missionsBitmaps.add(imageBitmap);
-            Log.d("picha", MissionsActivity.getMissionText());
-            missionsText.add(MissionsActivity.getMissionText());*/
+
+
+
 
             //counters de missoes
             if (requestCode == 1) missionD++;
