@@ -87,6 +87,17 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 .title("Ecoponto C3")
                 .icon(icon));
 
+        mMap.addMarker(new MarkerOptions()
+                .position(new LatLng(38.756280, -9.156047))
+                .title("Ecoponto C3")
+                .icon(icon));
+
+        mMap.addMarker(new MarkerOptions()
+                .position(new LatLng(38.755449, -9.158091))
+                .title("Open Studio")
+                .icon(icon));
+
+
         updateLocationUI();
 
         if (mLocationPermissionGranted) getDeviceLocation();
@@ -101,6 +112,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
             if (mLocationPermissionGranted) {
                 mMap.setMyLocationEnabled(true);
                 mMap.getUiSettings().setMyLocationButtonEnabled(true);
+
                 //mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
             }
 
@@ -130,7 +142,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                             mLastKnownLocation = (Location) task.getResult();
                             LatLng lastLocationLatLng = new LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude());
 
-                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lastLocationLatLng, 19));
+                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lastLocationLatLng, 20));
                         } else {
                             mMap.getUiSettings().setMyLocationButtonEnabled(false);
                         }
