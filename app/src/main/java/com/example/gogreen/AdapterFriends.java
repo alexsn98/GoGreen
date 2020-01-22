@@ -17,7 +17,7 @@ import com.google.firebase.database.GenericTypeIndicator;
 
 import java.util.List;
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+public class AdapterFriends extends RecyclerView.Adapter<AdapterFriends.MyViewHolder> {
     private List<User> mDataset;
     private DatabaseReference mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
     // Provide a reference to the views for each data item
@@ -29,7 +29,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         public TextView levelView;
         public TextView missionsDone;
         public ImageView avatarView;
-        public Button add;
 
         public MyViewHolder(View v) {
             super(v);
@@ -37,23 +36,21 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             levelView = v.findViewById(R.id.level);
             avatarView = v.findViewById(R.id.avatar);
             missionsDone = v.findViewById(R.id.missionsDone);
-            add = v.findViewById(R.id.add);
-
         }
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public MyAdapter(List<User> myDataset) {
+    public AdapterFriends(List<User> myDataset) {
         mDataset = myDataset;
     }
 
     // Create new views (invoked by the layout manager)
     @Override
-    public MyAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,
+    public AdapterFriends.MyViewHolder onCreateViewHolder(ViewGroup parent,
                                                      int viewType) {
         // create a new view
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.friend_card, parent, false);
+                .inflate(R.layout.friend_card1, parent, false);
 
         MyViewHolder vh = new MyViewHolder(v);
         return vh;
@@ -66,30 +63,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         holder.nameView.setText(u.getName());
         holder.levelView.setText("Nivel " + u.getLevel());
         holder.missionsDone.setText(u.getMissionsFinished()+"");
-
-        holder.add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if(LoginActivity.getUserLogged().getFriends().get(0).compareTo("0") == 0){
-                    List<String> list =  LoginActivity.getUserLogged().getFriends();
-                    list.set(0,u.getId());
-
-                    LoginActivity.getUserLogged().setFriends(list);
-                }else
-                    LoginActivity.getUserLogged().addFriend(u.getId());
-
-                if(u.getFriends().get(0).compareTo("0") == 0){
-                    List<String> list =  u.getFriends();
-                    list.set(0,LoginActivity.getUserLogged().getId());
-                    u.setFriends(list);
-                }else
-                    u.addFriend(LoginActivity.getUserLogged().getId());
-
-                mFirebaseDatabaseReference.child("USERS").child(LoginActivity.getUserLogged().getId()).child("FRIENDS").setValue(LoginActivity.getUserLogged().getFriends());
-                mFirebaseDatabaseReference.child("USERS").child(u.getId()).child("FRIENDS").setValue(u.getFriends());
-            }
-        });
     }
 
     // Return the size of your dataset (invoked by the layout manager)

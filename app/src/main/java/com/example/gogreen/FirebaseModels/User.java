@@ -8,6 +8,7 @@ import com.example.gogreen.R;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.SimpleTimeZone;
 
 public class User {
 
@@ -18,7 +19,7 @@ public class User {
     private int avatar;
     private int moldura;
     private int missionsFinished;
-    private List<Integer> friends;
+    private List<String> friends;
     private int missionD;
     private int missionW;
     private List<Integer> avatars;
@@ -168,15 +169,15 @@ public class User {
         this.cards.add(i);
     }
 
-    public List<Integer> getFriends() {
+    public List<String> getFriends() {
         return friends;
     }
 
-    public void setFriends(List<Integer> friends) {
+    public void setFriends(List<String> friends) {
         this.friends = friends;
     }
 
-    public void addFriend(int friend) {
+    public void addFriend(String friend) {
         this.friends.add(friend);
     }
 }

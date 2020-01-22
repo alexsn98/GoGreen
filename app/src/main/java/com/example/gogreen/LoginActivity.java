@@ -164,13 +164,15 @@ public class LoginActivity extends AppCompatActivity {
                             GenericTypeIndicator<List<Integer>> t2 = new GenericTypeIndicator<List<Integer>>() {};
                             List<Integer> cardsToGive =  ds.child("CARDSTOGIVE").getValue(t2);
 
+                            GenericTypeIndicator<List<String>> t3 = new GenericTypeIndicator<List<String>>() {};
+                            List<String> friends =  ds.child("FRIENDS").getValue(t3);
 
 
 
                             u.setAvatars(avatars);
                             u.setCards(cards);
                             u.setCardsToGive(cardsToGive);
-
+                            u.setFriends(friends);
 
                             user = u;
                             b[0] = true;
@@ -191,7 +193,8 @@ public class LoginActivity extends AppCompatActivity {
                     u.addCardToGive(0);
                     mFirebaseDatabaseReference.child("USERS").child(account.getId()).child("CARDSTOGIVE").setValue(u.getCardsToGive());
 
-
+                    u.addFriend("0");
+                    mFirebaseDatabaseReference.child("USERS").child(account.getId()).child("FRIENDS").setValue(u.getFriends());
 
                     user = u;
                     userCallBack.getCallback(user);
