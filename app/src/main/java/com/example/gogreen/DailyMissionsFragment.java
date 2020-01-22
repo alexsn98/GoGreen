@@ -20,7 +20,12 @@ public class DailyMissionsFragment extends Fragment {
             "Come uma refeição vegetariana",
             "Planta uma árvore",
             "Recicla uma garrafa de plástico",
-            "Utiliza um saco reutilizavel para ir às compras"
+            "Utiliza um saco reutilizavel para ir às compras",
+            "Faz um esforço pelo o ambiente e toma um banho de água fria",
+            "Muda todas as lampadas que tens em casa para LED",
+            "Come só refeições vegetarianas durante um dia",
+            "Ao longo da semana não compre nem utilize nada com plástico"
+
     };
     private View v;
 
@@ -35,7 +40,7 @@ public class DailyMissionsFragment extends Fragment {
         v = inflater.inflate(R.layout.fragment_daily_missions, container, false);
 
         TextView textView = v.findViewById(R.id.dailyMissionText);
-        textView.setText(missions[MissionsActivity.getMissionD()]);
+        textView.setText(missions[LoginActivity.getUserLogged().getMissionD()]);
 
         return v;
     }
@@ -45,6 +50,6 @@ public class DailyMissionsFragment extends Fragment {
         super.onResume();
 
         TextView textView = v.findViewById(R.id.dailyMissionText);
-        textView.setText(missions[MissionsActivity.getMissionD()]);
+        textView.setText(missions[LoginActivity.getUserLogged().getMissionW()]);
     }
 }

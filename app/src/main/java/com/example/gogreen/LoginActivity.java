@@ -50,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
     static GoogleSignInAccount gs;
     private static String username;
 
-    private DatabaseReference mFirebaseDatabaseReference;
+    private DatabaseReference mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
     private static User user;
 
     @Override
@@ -68,8 +68,6 @@ public class LoginActivity extends AppCompatActivity {
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
-        mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
 
         findViewById(R.id.sign_in_button).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -166,9 +164,13 @@ public class LoginActivity extends AppCompatActivity {
                             GenericTypeIndicator<List<Integer>> t2 = new GenericTypeIndicator<List<Integer>>() {};
                             List<Integer> cardsToGive =  ds.child("CARDSTOGIVE").getValue(t2);
 
+
+
+
                             u.setAvatars(avatars);
                             u.setCards(cards);
                             u.setCardsToGive(cardsToGive);
+
 
                             user = u;
                             b[0] = true;
@@ -188,6 +190,8 @@ public class LoginActivity extends AppCompatActivity {
 
                     u.addCardToGive(0);
                     mFirebaseDatabaseReference.child("USERS").child(account.getId()).child("CARDSTOGIVE").setValue(u.getCardsToGive());
+
+
 
                     user = u;
                     userCallBack.getCallback(user);

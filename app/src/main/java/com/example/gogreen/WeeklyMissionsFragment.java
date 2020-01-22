@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -20,11 +21,14 @@ import java.util.ArrayList;
 public class WeeklyMissionsFragment extends Fragment {
     private String[] missions = {
             "Apanha 1 garrafa de 1,5L de beatas",
-            "Não desperdices comida",
             "Utiliza só uma vez a máquina de lavar roupa",
             "Utiliza uma garrafa reutilizavel durante uma semana",
-            "Coloca lâmpadas economicas na casa toda"
+            "Reutiliza o que tens em casa e cultiva uma planta",
+            "Tem o dobro da atenção para não deixares nenhum carregador ligado à ficha nem luzes ligadas",
+            "Quando fizeres refeições utiliza só o que tens em casa"
+
     };
+
     private View v;
 
     public WeeklyMissionsFragment() {
@@ -38,7 +42,7 @@ public class WeeklyMissionsFragment extends Fragment {
         v = inflater.inflate(R.layout.fragment_weekly_missions, container, false);
 
         TextView textView = v.findViewById(R.id.weeklyMissionText);
-        textView.setText(missions[MissionsActivity.getMissionS()]);
+        textView.setText(missions[LoginActivity.getUserLogged().getMissionW()]);
         return v;
     }
 
@@ -47,6 +51,6 @@ public class WeeklyMissionsFragment extends Fragment {
         super.onResume();
 
         TextView textView = v.findViewById(R.id.weeklyMissionText);
-        textView.setText(missions[MissionsActivity.getMissionS()]);
+        textView.setText(missions[LoginActivity.getUserLogged().getMissionW()]);
     }
 }

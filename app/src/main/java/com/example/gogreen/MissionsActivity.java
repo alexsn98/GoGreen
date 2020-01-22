@@ -1,7 +1,10 @@
 package com.example.gogreen;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -11,7 +14,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -47,6 +53,7 @@ public class MissionsActivity extends AppCompatActivity {
     private DatabaseReference mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
     private String imageName;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,24 +75,34 @@ public class MissionsActivity extends AppCompatActivity {
 
 
 
-        FrameLayout frame = findViewById(R.id.daily_missions_container);
-        frame.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                TextView dailyMissionTextView = v.findViewById(R.id.dailyMissionText);
-                MissionsActivity.setMissionText(dailyMissionTextView.getText().toString());
-                dispatchTakePictureIntent(1);
-            }
-        });
+            FrameLayout frame = findViewById(R.id.daily_missions_container);
+            frame.setOnClickListener(new View.OnClickListener() {
 
-        FrameLayout frame1 = findViewById(R.id.weekly_missions_container);
-        frame1.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                TextView weeklyMissionTextView = v.findViewById(R.id.weeklyMissionText);
-                MissionsActivity.setMissionText(weeklyMissionTextView.getText().toString());
-                dispatchTakePictureIntent(2);
-            }
-        });
+                public void onClick(View v) {
+
+                    TextView dailyMissionTextView = v.findViewById(R.id.dailyMissionText);
+                    MissionsActivity.setMissionText(dailyMissionTextView.getText().toString());
+                    dispatchTakePictureIntent(1);
+
+                }
+            });
+
+            FrameLayout frame1 = findViewById(R.id.weekly_missions_container);
+            frame1.setOnClickListener(new View.OnClickListener() {
+
+                public void onClick(View v) {
+
+                    TextView weeklyMissionTextView = v.findViewById(R.id.weeklyMissionText);
+                    MissionsActivity.setMissionText(weeklyMissionTextView.getText().toString());
+                    dispatchTakePictureIntent(2);
+
+                }
+            });
+
     }
+
+
+
 
     public static int getMissionD() {
         return missionD;
@@ -185,9 +202,17 @@ public class MissionsActivity extends AppCompatActivity {
 
 
             //counters de missoes
-            if (requestCode == 1) missionD++;
+            if (requestCode == 1){
+                LoginActivity.getUserLogged().addMissionsD();
+                mFirebaseDatabaseReference.child("USERS").child(LoginActivity.getUserLogged().getId()).child("missionD").setValue(LoginActivity.getUserLogged().getMissionD());
+            }
 
-            if (requestCode == 2) missionS++;
+            if (requestCode == 2){
+                LoginActivity.getUserLogged().addMissionsW();
+                mFirebaseDatabaseReference.child("USERS").child(LoginActivity.getUserLogged().getId()).child("missionW").setValue(LoginActivity.getUserLogged().getMissionW());
+
+
+            }
         }
     }
 

@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.gogreen.FirebaseModels.User;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -70,6 +71,9 @@ public class ValidGreenActivity extends AppCompatActivity {
                             @Override
                             public void onCancelled(@NonNull DatabaseError databaseError) {}
                         });
+
+                        mFirebaseDatabaseReference.child("USERS").child(LoginActivity.getUserLogged().getId()).
+                                child("missionsFinished").setValue(LoginActivity.getUserLogged().addMissionsDone());
                     }
                 });
             }

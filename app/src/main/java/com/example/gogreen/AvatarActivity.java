@@ -38,8 +38,6 @@ public class AvatarActivity extends AppCompatActivity {
 
         if(xp[1] == 0) xp[1] = 1000;
 
-
-
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
@@ -141,7 +139,11 @@ public class AvatarActivity extends AppCompatActivity {
 
     public void changeToSettings(View view) {
         Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+    }
 
+    public void addFriends(View view) {
+        Intent intent = new Intent(this, AddFriendsActivity.class);
         startActivity(intent);
     }
 

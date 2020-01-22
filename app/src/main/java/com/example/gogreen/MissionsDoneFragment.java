@@ -29,7 +29,7 @@ public class MissionsDoneFragment extends Fragment {
         v = inflater.inflate(R.layout.fragment_missions_done, container, false);
 
         TextView textView = v.findViewById(R.id.missionsDoneText);
-        textView.setText(String.valueOf(MissionsActivity.getMissionsDone()));
+        textView.setText(String.valueOf(LoginActivity.getUserLogged().getMissionsFinished()));
         return v;
     }
 
@@ -38,6 +38,6 @@ public class MissionsDoneFragment extends Fragment {
         super.onResume();
 
         TextView textView = v.findViewById(R.id.missionsDoneText);
-        textView.setText(String.valueOf(MissionsActivity.getMissionsDone()));
+        textView.setText(String.valueOf(LoginActivity.getUserLogged().getMissionsFinished()));
     }
 }

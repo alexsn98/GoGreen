@@ -19,6 +19,8 @@ public class User {
     private int moldura;
     private int missionsFinished;
     private List<Integer> friends;
+    private int missionD;
+    private int missionW;
     private List<Integer> avatars;
     private List<Integer> cards;
     private List<Integer> cardsToGive;
@@ -34,13 +36,46 @@ public class User {
         this.moldura = R.drawable.wood_border;
         this.avatars = new ArrayList<>();
         this.friends = new ArrayList<>();
+        this.missionD=0;
+        this.missionW = 0;
         this.cardsToGive = new ArrayList<>();
         this.coins = 0;
+        this.missionsFinished = 0;
         this.cards = new ArrayList<>();
     }
 
 
     public User(){
+    }
+
+    public int addMissionsDone(){
+        this.missionsFinished ++;
+        return missionsFinished;
+    }
+
+    public int getMissionsFinished(){
+        return missionsFinished;
+    }
+
+    public void setMissionsFinished(int missionsFinished) {
+        this.missionsFinished = missionsFinished;
+    }
+
+
+    public void addMissionsD(){
+        missionD++;
+    }
+
+    public void addMissionsW(){
+        missionW++;
+    }
+
+    public int getMissionD(){
+        return missionD;
+    }
+
+    public int getMissionW() {
+        return missionW;
     }
 
     public String getName() {
@@ -131,5 +166,17 @@ public class User {
 
     public void addCard(int i){
         this.cards.add(i);
+    }
+
+    public List<Integer> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(List<Integer> friends) {
+        this.friends = friends;
+    }
+
+    public void addFriend(int friend) {
+        this.friends.add(friend);
     }
 }
