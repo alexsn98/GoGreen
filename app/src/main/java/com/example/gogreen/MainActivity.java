@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 
@@ -131,8 +132,6 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lastLocationLatLng, 19));
                         } else {
-                            Log.d("pau", "Current location is null. Using defaults.");
-                            Log.e("pau", "Exception: %s", task.getException());
                             mMap.getUiSettings().setMyLocationButtonEnabled(false);
                         }
                     }
@@ -181,19 +180,9 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                     Manifest.permission.CAMERA)) {
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
             } else {
-                // No explanation needed, we can request the permission.
                 ActivityCompat.requestPermissions(this,new String[] {Manifest.permission.CAMERA},i);
-
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
-
             }
-
         }
         else {
             Intent intent = new Intent(this, MissionsActivity.class);
@@ -202,8 +191,6 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void changeToQRCode(View view){
-
-
         int i=0;
         if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
                 Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {

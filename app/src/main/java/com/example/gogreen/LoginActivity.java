@@ -7,10 +7,12 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.gogreen.FirebaseModels.User;
@@ -69,13 +71,23 @@ public class LoginActivity extends AppCompatActivity {
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        findViewById(R.id.sign_in_button).setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                signIn(v);
-            }
-        });
+        if(doLogin){
+            ProgressBar p = findViewById(R.id.loading);
+            p.setVisibility(View.VISIBLE);
+            p.setIndeterminate(true);
 
-        if(doLogin) setUpAccount();
+            setUpAccount();
+        }
+        else {
+            ProgressBar p = findViewById(R.id.loading);
+            p.setVisibility(View.INVISIBLE);
+            findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
+            findViewById(R.id.sign_in_button).setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    signIn(v);
+                }
+            });
+        }
     }
 
 
@@ -90,9 +102,17 @@ public class LoginActivity extends AppCompatActivity {
                     user = u;
                 }
             });
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            finish();
+
+
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }, 1000);
         }
     }
     public static String getUsername() {
@@ -105,6 +125,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void signIn(View v) {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 

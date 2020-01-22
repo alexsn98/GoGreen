@@ -33,14 +33,15 @@
         android:id="@+id/missionsDone"
         android:layout_width="wrap_content"
         android:layout_height="23dp"
-        android:layout_marginStart="14dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="23dp"
         android:text="TextView"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imageView2"
         app:layout_constraintStart_toEndOf="@+id/level"
         app:layout_constraintTop_toBottomOf="@+id/name"
-        app:layout_constraintVertical_bias="0.47" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <ImageView
         android:id="@+id/avatar"
@@ -49,18 +50,16 @@
         android:layout_marginEnd="44dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/avatar_tree" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="26dp"
         android:layout_height="22dp"
-        android:layout_marginStart="36dp"
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/missionsDone"
         app:layout_constraintTop_toBottomOf="@+id/name"
-        app:layout_constraintVertical_bias="0.386"
+        app:layout_constraintVertical_bias="0.477"
         app:srcCompat="@drawable/star_missions" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -60,9 +60,11 @@ public class AdapterFriends extends RecyclerView.Adapter<AdapterFriends.MyViewHo
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         final User u = mDataset.get(position);
+
         holder.nameView.setText(u.getName());
         holder.levelView.setText("Nivel " + u.getLevel());
         holder.missionsDone.setText(u.getMissionsFinished()+"");
+        holder.avatarView.setImageResource(u.getAvatar());
     }
 
     // Return the size of your dataset (invoked by the layout manager)

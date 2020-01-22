@@ -1,18 +1,17 @@
 package com.example.gogreen;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.example.gogreen.FirebaseModels.User;
 import com.google.firebase.database.DataSnapshot;
@@ -29,14 +28,27 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FriendsFragment extends Fragment {
+public class FriendsListFragment extends Fragment {
+    private static final String TAG = "Amigos";
+    private PageViewModel pageViewModel;
     private static View v;
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
     private DatabaseReference mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
+    private List<String> friendsIds;
 
-    public FriendsFragment() {
+    public FriendsListFragment() {
         // Required empty public constructor
+    }
+
+    public static FriendsListFragment newInstance() {
+        return new FriendsListFragment();
+    }
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        pageViewModel = ViewModelProviders.of(this).get(PageViewModel.class);
+        pageViewModel.setIndex(TAG);
     }
 
     @Override
@@ -52,14 +64,26 @@ public class FriendsFragment extends Fragment {
         layoutManager = new LinearLayoutManager(v.getContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        refreshFriendList();
+        friendsIds =  LoginActivity.getUserLogged().getFriends();
+
+        if (friendsIds.get(0).compareTo("0") != 0) {
+            refreshFriendList();
+        }
 
         // Inflate the layout for this fragment
         return v;
     }
 
+    @Override
+    public void onResume() {
+        if (friendsIds.get(0).compareTo("0") != 0) {
+            refreshFriendList();
+        }
+
+        super.onResume();
+    }
+
     private void refreshFriendList() {
-        final List<String> friendsIds =  LoginActivity.getUserLogged().getFriends();
         final List<User> friends = new ArrayList<>();
 
         for (final String friendId: friendsIds) {

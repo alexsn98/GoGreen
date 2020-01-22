@@ -19,7 +19,7 @@
 
             android:layout_gravity="center"
             android:layout_weight="1"
-            app:srcCompat="@drawable/recyclesign1" />
+            app:srcCompat="@drawable/question_mark" />
 
         <ScrollView
             android:layout_width="match_parent"

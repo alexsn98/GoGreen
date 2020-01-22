@@ -1,5 +1,8 @@
 package com.example.gogreen;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +23,8 @@ import java.util.List;
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     private List<User> mDataset;
     private DatabaseReference mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
+    private Context activityContext;
+
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
@@ -52,7 +57,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     public MyAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,
                                                      int viewType) {
         // create a new view
-        View v = LayoutInflater.from(parent.getContext())
+        activityContext = parent.getContext();
+        View v = LayoutInflater.from(activityContext)
                 .inflate(R.layout.friend_card, parent, false);
 
         MyViewHolder vh = new MyViewHolder(v);
@@ -66,6 +72,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         holder.nameView.setText(u.getName());
         holder.levelView.setText("Nivel " + u.getLevel());
         holder.missionsDone.setText(u.getMissionsFinished()+"");
+
+        holder.avatarView.setImageResource(u.getAvatar());
 
         holder.add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,6 +96,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
                 mFirebaseDatabaseReference.child("USERS").child(LoginActivity.getUserLogged().getId()).child("FRIENDS").setValue(LoginActivity.getUserLogged().getFriends());
                 mFirebaseDatabaseReference.child("USERS").child(u.getId()).child("FRIENDS").setValue(u.getFriends());
+
+                ((Activity)activityContext).finish();
             }
         });
     }

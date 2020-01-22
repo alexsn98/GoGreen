@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -84,7 +85,8 @@ public class ValidGreenActivity extends AppCompatActivity {
         missionImageView = findViewById(R.id.missionImage);
 
         Query query = mFirebaseDatabaseReference.child("GREEN").orderByChild("id");
-
+        final ImageView b = findViewById(R.id.confirm);
+        final ImageView b1 = findViewById(R.id.dontConfirm);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -97,6 +99,10 @@ public class ValidGreenActivity extends AppCompatActivity {
                     missionImageView.setImageResource(R.drawable.empty_valid_green);
                     TextView validMissionView = findViewById(R.id.validMissionView);
                     validMissionView.setText("Não há imagens para verificares!" + '\n' + "Volta mais tarde!");
+
+                    b.setEnabled(false);
+                    b1.setEnabled(false);
+
                 }
 
                 else {
@@ -114,10 +120,14 @@ public class ValidGreenActivity extends AppCompatActivity {
                                 public void onSuccess(StorageMetadata storageMetadata) {
                                     TextView validMissionView = findViewById(R.id.validMissionView);
                                     validMissionView.setText(storageMetadata.getCustomMetadata("missao"));
+                                    b.setEnabled(true);
+                                    b1.setEnabled(true);
                                 }
                             });
                         }
                     });
+
+
                 }
             }
 
