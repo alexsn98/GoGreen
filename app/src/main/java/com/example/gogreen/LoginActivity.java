@@ -71,23 +71,10 @@ public class LoginActivity extends AppCompatActivity {
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        if(doLogin){
-            ProgressBar p = findViewById(R.id.loading);
-            p.setVisibility(View.VISIBLE);
-            p.setIndeterminate(true);
-
+        if(doLogin)
             setUpAccount();
-        }
-        else {
-            ProgressBar p = findViewById(R.id.loading);
-            p.setVisibility(View.INVISIBLE);
-            findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
-            findViewById(R.id.sign_in_button).setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    signIn(v);
-                }
-            });
-        }
+
+
     }
 
 
@@ -95,6 +82,10 @@ public class LoginActivity extends AppCompatActivity {
         gs = GoogleSignIn.getLastSignedInAccount(this);
 
         if (gs != null) {
+            ProgressBar p = findViewById(R.id.loading);
+            p.setVisibility(View.VISIBLE);
+            p.setIndeterminate(true);
+
             setUsername(gs.getDisplayName());
             findUser(gs, new userCallBack() {
                 @Override
@@ -113,6 +104,17 @@ public class LoginActivity extends AppCompatActivity {
                     finish();
                 }
             }, 1000);
+        }
+
+        else {
+            ProgressBar p = findViewById(R.id.loading);
+            p.setVisibility(View.INVISIBLE);
+            findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
+            findViewById(R.id.sign_in_button).setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    signIn(v);
+                }
+            });
         }
     }
     public static String getUsername() {
