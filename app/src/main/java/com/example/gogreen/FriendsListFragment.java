@@ -76,7 +76,7 @@ public class FriendsListFragment extends Fragment {
 
     @Override
     public void onResume() {
-        if (friendsIds.get(0).compareTo("0") != 0) {
+        if (friendsIds.get(0).compareTo("0") != 0 || friendsIds.size() > 1) {
             refreshFriendList();
         }
 
