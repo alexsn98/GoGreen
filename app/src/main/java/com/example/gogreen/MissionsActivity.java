@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -186,7 +187,7 @@ public class MissionsActivity extends AppCompatActivity {
 
                             else {
                                 imageNamesList.add(imageName.split("/")[1]);
-                                Log.d("pau", imageNamesList.get(1));
+
                                 mFirebaseDatabaseReference.child("GREEN").setValue(imageNamesList);
                             }
                         }

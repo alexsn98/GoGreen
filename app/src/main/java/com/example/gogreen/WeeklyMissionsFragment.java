@@ -41,8 +41,7 @@ public class WeeklyMissionsFragment extends Fragment {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_weekly_missions, container, false);
 
-        TextView textView = v.findViewById(R.id.weeklyMissionText);
-        textView.setText(missions[LoginActivity.getUserLogged().getMissionW()]);
+        selectMission();
         return v;
     }
 
@@ -50,7 +49,25 @@ public class WeeklyMissionsFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
+        selectMission();
+    }
+
+    private void selectMission() {
         TextView textView = v.findViewById(R.id.weeklyMissionText);
-        textView.setText(missions[LoginActivity.getUserLogged().getMissionW()]);
+        int numMission;
+
+        if (LoginActivity.getUserLogged().getMissionW() >= missions.length) {
+            if (LoginActivity.getUserLogged().getMissionW() == missions.length)
+                numMission = LoginActivity.getUserLogged().getMissionW() % missions.length;
+
+
+            else
+                numMission = (LoginActivity.getUserLogged().getMissionW() % missions.length) - 1;
+        }
+
+        else
+            numMission = LoginActivity.getUserLogged().getMissionW();
+
+        textView.setText(missions[numMission]);
     }
 }

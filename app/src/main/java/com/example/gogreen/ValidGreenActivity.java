@@ -39,6 +39,8 @@ public class ValidGreenActivity extends AppCompatActivity {
     private DatabaseReference mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
     private StorageReference storageReference = storage.getReference();
     private List<String> imageNamesList;
+    private String autorImagem;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,8 +75,24 @@ public class ValidGreenActivity extends AppCompatActivity {
                             public void onCancelled(@NonNull DatabaseError databaseError) {}
                         });
 
-                        mFirebaseDatabaseReference.child("USERS").child(LoginActivity.getUserLogged().getId()).
-                                child("missionsFinished").setValue(LoginActivity.getUserLogged().addMissionsDone());
+                        Query query1 = mFirebaseDatabaseReference.child("USERS").child(autorImagem);
+
+                        query1.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                User u = dataSnapshot.getValue(User.class);
+
+                                mFirebaseDatabaseReference.child("USERS").child(autorImagem).
+                                        child("missionsFinished").setValue(u.addMissionsDone());
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+
+
                     }
                 });
             }
@@ -108,20 +126,29 @@ public class ValidGreenActivity extends AppCompatActivity {
                 else {
                     storageReference.child("validGreen/" + imageNamesList.get(0)).getBytes(1024 * 1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
                         @Override
-                        public void onSuccess(byte[] bytes) {
-                            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                            ByteArrayOutputStream blob = new ByteArrayOutputStream();
-                            bitmap.compress(Bitmap.CompressFormat.PNG, 0, blob);
+                        public void onSuccess(final byte[] bytes) {
 
-                            missionImageView.setImageBitmap(bitmap);
 
                             storageReference.child("validGreen/" + imageNamesList.get(0)).getMetadata().addOnSuccessListener(new OnSuccessListener<StorageMetadata>() {
                                 @Override
                                 public void onSuccess(StorageMetadata storageMetadata) {
-                                    TextView validMissionView = findViewById(R.id.validMissionView);
-                                    validMissionView.setText(storageMetadata.getCustomMetadata("missao"));
-                                    b.setEnabled(true);
-                                    b1.setEnabled(true);
+                                    String autor =  storageMetadata.getCustomMetadata("user");
+                                    if (LoginActivity.getUserLogged().getId().compareTo(autor) != 0) {
+                                        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                        ByteArrayOutputStream blob = new ByteArrayOutputStream();
+                                        bitmap.compress(Bitmap.CompressFormat.PNG, 0, blob);
+
+                                        missionImageView.setImageBitmap(bitmap);
+
+
+                                        autorImagem = autor;
+
+                                        TextView validMissionView = findViewById(R.id.validMissionView);
+                                        validMissionView.setText(storageMetadata.getCustomMetadata("missao"));
+
+                                        b.setEnabled(true);
+                                        b1.setEnabled(true);
+                                    }
                                 }
                             });
                         }

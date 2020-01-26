@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,9 +40,6 @@ public class DailyMissionsFragment extends Fragment {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_daily_missions, container, false);
 
-        TextView textView = v.findViewById(R.id.dailyMissionText);
-        textView.setText(missions[LoginActivity.getUserLogged().getMissionD()]);
-
         return v;
     }
 
@@ -49,7 +47,25 @@ public class DailyMissionsFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
+        selectMission();
+    }
+
+    private void selectMission() {
         TextView textView = v.findViewById(R.id.dailyMissionText);
-        textView.setText(missions[LoginActivity.getUserLogged().getMissionW()]);
+        int numMission;
+
+        if (LoginActivity.getUserLogged().getMissionD() >= missions.length) {
+            if (LoginActivity.getUserLogged().getMissionD() == missions.length)
+                numMission = LoginActivity.getUserLogged().getMissionD() % missions.length;
+
+
+            else
+                numMission = (LoginActivity.getUserLogged().getMissionD() % missions.length) - 1;
+        }
+
+        else
+            numMission = LoginActivity.getUserLogged().getMissionD();
+
+        textView.setText(missions[numMission]);
     }
 }
